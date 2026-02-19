@@ -136,6 +136,7 @@ function Footer() {
           <div className="text-sm text-fog/80">
             <div className="font-display tracking-[0.18em] text-paper">VANTAGE XR</div>
             <div className="mt-1">VR/AR experiences for product & training.</div>
+            <div className="mt-2 text-xs text-fog/60">Stanley Labs</div>
           </div>
           <div className="flex items-center gap-4 text-sm">
             <a href="#platform" className="text-fog/90 hover:text-paper">
