@@ -4,22 +4,40 @@ export default {
   theme: {
     extend: {
       colors: {
+        void: "#070611",
+        iris: "#A855F7",
+        cyan: "#22D3EE",
+        fuchsia: "#FB7185",
         ink: "#0B0D12",
-        paper: "#EEF2FF",
-        fog: "#A7B0C6",
-        electric: "#2D6BFF",
-        hot: "#FF3B3B",
-        graphite: "#11151F",
+        paper: "#F4F3FF",
       },
       boxShadow: {
-        insetHairline: "inset 0 0 0 1px rgba(255,255,255,0.08)",
+        glow: "0 0 0 1px rgba(255,255,255,0.08), 0 20px 80px rgba(168,85,247,0.18)",
       },
       fontFamily: {
-        display: ["ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "Helvetica", "Arial", "Apple Color Emoji", "Segoe UI Emoji"],
-        mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
+        display: [
+          "Sora",
+          "ui-sans-serif",
+          "system-ui",
+          "-apple-system",
+          "Segoe UI",
+          "Roboto",
+          "Helvetica",
+          "Arial",
+        ],
+        mono: [
+          "Space Mono",
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "Monaco",
+          "Consolas",
+          "Liberation Mono",
+          "Courier New",
+          "monospace",
+        ],
       },
     },
   },
   plugins: [],
 };
-
