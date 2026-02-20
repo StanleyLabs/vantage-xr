@@ -115,6 +115,13 @@ export default function App() {
 
   return (
     <div className="min-h-dvh bg-void text-white">
+      {/* ── Global 3D Scene — fixed behind all content ── */}
+      <div className="fixed inset-0 z-0">
+        <Suspense fallback={null}>
+          <Scene3D scrollRef={scrollRef} />
+        </Suspense>
+      </div>
+
       {/* ── Navbar ── */}
       <nav className="fixed top-0 z-50 w-full">
         <div
@@ -170,13 +177,6 @@ export default function App() {
       <section className="relative flex min-h-dvh items-center justify-center overflow-hidden">
         <div className="stars" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(41,151,255,0.12),transparent)]" />
-
-        {/* 3D Scene — sticky behind content */}
-        <div className="absolute inset-0 z-0">
-          <Suspense fallback={null}>
-            <Scene3D scrollRef={scrollRef} />
-          </Suspense>
-        </div>
 
         {/* Hero text */}
         <div
@@ -242,18 +242,10 @@ export default function App() {
         </div>
       </section>
 
-      {/* ── 3D Sticky Scroll Section ── */}
+      {/* ── Features Scroll Section ── */}
       <section id="features" className="relative">
-        {/* Sticky 3D model */}
-        <div className="sticky top-0 z-0 h-dvh w-full">
-          <div className="absolute inset-0 bg-gradient-to-b from-void via-void/95 to-void" />
-          <Suspense fallback={null}>
-            <Scene3D scrollRef={scrollRef} />
-          </Suspense>
-        </div>
-
         {/* Overlaid scroll sections */}
-        <div className="relative z-10 -mt-[100vh]">
+        <div className="relative z-10">
           {features.map((f, i) => (
             <div key={i} className="flex min-h-dvh items-center">
               <div className="mx-auto w-full max-w-7xl px-6">
