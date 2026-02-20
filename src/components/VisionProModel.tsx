@@ -98,7 +98,7 @@ export default function ProductShowcase({ scrollRef }: Props) {
       mbGroup.current.position.y = THREE.MathUtils.lerp(mbGroup.current.position.y, mbY, delta * 3);
       mbGroup.current.scale.setScalar(THREE.MathUtils.lerp(mbGroup.current.scale.x, mbScale, delta * 3));
       mbGroup.current.rotation.y = THREE.MathUtils.lerp(mbGroup.current.rotation.y, mbRotY, delta * 2);
-      mbGroup.current.rotation.x = THREE.MathUtils.lerp(mbGroup.current.rotation.x, -0.35, delta * 2);
+      mbGroup.current.rotation.x = THREE.MathUtils.lerp(mbGroup.current.rotation.x, 0.35, delta * 2);
     }
 
     // ── Mac Mini ──
@@ -115,7 +115,7 @@ export default function ProductShowcase({ scrollRef }: Props) {
       mmGroup.current.position.y = THREE.MathUtils.lerp(mmGroup.current.position.y, mmY, delta * 3);
       mmGroup.current.scale.setScalar(THREE.MathUtils.lerp(mmGroup.current.scale.x, mmScale, delta * 3));
       mmGroup.current.rotation.y = THREE.MathUtils.lerp(mmGroup.current.rotation.y, mmRotY, delta * 2);
-      mmGroup.current.rotation.x = THREE.MathUtils.lerp(mmGroup.current.rotation.x, -0.3, delta * 2);
+      mmGroup.current.rotation.x = THREE.MathUtils.lerp(mmGroup.current.rotation.x, 0.3, delta * 2);
     }
 
     // ── Camera — pull back for multi-product view ──

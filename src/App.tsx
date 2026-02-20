@@ -181,7 +181,7 @@ export default function App() {
         {/* Hero text */}
         <div
           className={cn(
-            "relative z-10 mx-auto max-w-5xl px-6 text-center transition-all duration-1000",
+            "relative z-10 mx-auto max-w-5xl px-6 text-center text-glow transition-all duration-1000",
             heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >
@@ -256,20 +256,22 @@ export default function App() {
                   )}
                 >
                   <ScrollSection delay={100}>
-                    <div
-                      className={cn(
-                        "inline-block rounded-full bg-gradient-to-r px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.3em]",
-                        f.accent
-                      )}
-                    >
-                      {f.label}
+                    <div className="rounded-2xl bg-void/60 backdrop-blur-md p-6 sm:p-8">
+                      <div
+                        className={cn(
+                          "inline-block rounded-full bg-gradient-to-r px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.3em]",
+                          f.accent
+                        )}
+                      >
+                        {f.label}
+                      </div>
+                      <h2 className="mt-4 font-display text-3xl font-bold leading-[1.1] text-white sm:text-5xl whitespace-pre-line">
+                        {f.title}
+                      </h2>
+                      <p className="mt-4 text-base leading-relaxed text-white/50 sm:text-lg">
+                        {f.desc}
+                      </p>
                     </div>
-                    <h2 className="mt-4 font-display text-3xl font-bold leading-[1.1] text-white sm:text-5xl whitespace-pre-line">
-                      {f.title}
-                    </h2>
-                    <p className="mt-4 text-base leading-relaxed text-white/50 sm:text-lg">
-                      {f.desc}
-                    </p>
                   </ScrollSection>
                 </div>
               </div>
