@@ -120,7 +120,7 @@ export default function App() {
         <div
           ref={navBgRef}
           className={cn(
-            "mx-auto flex h-14 max-w-7xl items-center justify-between px-6 transition-all duration-500",
+            "mx-auto flex h-14 max-w-7xl flex-col items-center justify-center gap-0.5 px-6 transition-all duration-500 sm:h-16 sm:flex-row sm:gap-8",
             "bg-transparent"
           )}
         >
@@ -133,7 +133,8 @@ export default function App() {
             </span>
           </a>
 
-          <div className="hidden items-center gap-8 sm:flex">
+          <div className="hidden items-center gap-6 sm:flex">
+            <span className="text-white/15">|</span>
             <a href="#features" className="text-xs text-white/60 hover:text-white transition">
               Features
             </a>
@@ -143,13 +144,14 @@ export default function App() {
             <a href="#experience" className="text-xs text-white/60 hover:text-white transition">
               Experience
             </a>
+            <span className="text-white/15">|</span>
             <a
               href="https://www.apple.com/apple-vision-pro/"
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-full bg-apple-blue px-4 py-1.5 text-xs font-semibold text-white hover:bg-apple-blue/90 transition"
             >
-              Apple.com
+              Apple.com ↗
             </a>
           </div>
         </div>
