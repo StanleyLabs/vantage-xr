@@ -86,15 +86,11 @@ export default function App() {
     };
     document.addEventListener("click", handleAnchorClick);
 
-    // Track scroll progress
-    const onScroll = () => {
-      const h = document.documentElement.scrollHeight - window.innerHeight;
-      const p = h > 0 ? window.scrollY / h : 0;
-      scrollRef.current = p;
-      setScrollProgress(p);
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
+    // Track scroll progress via Lenis for silky-smooth updates
+    lenis.on("scroll", ({ progress }: { progress: number }) => {
+      scrollRef.current = progress;
+      setScrollProgress(progress);
+    });
 
     // Hero reveal
     setTimeout(() => setHeroVisible(true), 200);
@@ -102,7 +98,6 @@ export default function App() {
     return () => {
       lenis.destroy();
       document.removeEventListener("click", handleAnchorClick);
-      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 
