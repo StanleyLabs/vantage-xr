@@ -19,7 +19,7 @@ export default function Scene3D({ scrollRef }: Scene3DProps) {
     <div className="relative h-full w-full">
       <Suspense fallback={<Loader />}>
         <Canvas
-          camera={{ position: [0, 0, 4], fov: 45 }}
+          camera={{ position: [0, 0, 40], fov: 45 }}
           dpr={[1, 2]}
           gl={{
             antialias: true,
