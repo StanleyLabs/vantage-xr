@@ -53,7 +53,7 @@ export default function ProductShowcase({ scrollRef }: Props) {
 
     // ── Vision Pro ──
     if (vpGroup.current) {
-      const vpRotY = sp * Math.PI * 1.5 + t * 0.15;
+      const vpRotY = -Math.PI / 2 + sp * Math.PI * 1.5 + t * 0.15;
       const vpRotX = Math.sin(sp * Math.PI) * 0.15;
 
       // Position & scale transitions
@@ -85,7 +85,7 @@ export default function ProductShowcase({ scrollRef }: Props) {
       let mbX = THREE.MathUtils.lerp(6, 1.5, ease);
       let mbY = 0;
       let mbScale = THREE.MathUtils.lerp(0, 0.8, ease);
-      const mbRotY = -0.4 + t * 0.1;
+      const mbRotY = Math.PI - 0.4 + t * 0.1;
 
       if (sp > 0.6) {
         const p = THREE.MathUtils.clamp((sp - 0.6) / 0.15, 0, 1);
@@ -108,7 +108,7 @@ export default function ProductShowcase({ scrollRef }: Props) {
       const mmX = THREE.MathUtils.lerp(0, 1.8, ease);
       const mmY = THREE.MathUtils.lerp(-3, -0.8, ease);
       const mmScale = THREE.MathUtils.lerp(0, 0.9, ease);
-      const mmRotY = 0.5 + t * 0.08;
+      const mmRotY = Math.PI + 0.5 + t * 0.08;
 
       mmGroup.current.position.x = THREE.MathUtils.lerp(mmGroup.current.position.x, mmX, delta * 3);
       mmGroup.current.position.y = THREE.MathUtils.lerp(mmGroup.current.position.y, mmY, delta * 3);
