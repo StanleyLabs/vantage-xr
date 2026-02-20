@@ -4,15 +4,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        void: "#070611",
+        void: "#050505",
+        silver: "#E8E8ED",
+        "apple-gray": "#1D1D1F",
+        "apple-blue": "#2997FF",
+        "apple-purple": "#BF5AF2",
         iris: "#A855F7",
         cyan: "#22D3EE",
-        fuchsia: "#FB7185",
-        ink: "#0B0D12",
-        paper: "#F4F3FF",
       },
       boxShadow: {
-        glow: "0 0 0 1px rgba(255,255,255,0.08), 0 20px 80px rgba(168,85,247,0.18)",
+        glow: "0 0 80px rgba(41, 151, 255, 0.15), 0 0 160px rgba(191, 90, 242, 0.1)",
+        "glow-lg": "0 0 120px rgba(41, 151, 255, 0.2), 0 0 240px rgba(191, 90, 242, 0.15)",
       },
       fontFamily: {
         display: [
