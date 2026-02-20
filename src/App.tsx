@@ -120,45 +120,54 @@ export default function App() {
         <div
           ref={navBgRef}
           className={cn(
-            "mx-auto flex h-14 max-w-7xl items-center justify-between px-6 transition-all duration-500",
+            "mx-auto flex h-12 max-w-7xl items-center justify-between px-6 transition-all duration-500",
             "bg-transparent"
           )}
         >
-          <a href="#" className="flex items-center gap-2.5">
-            <div className="grid size-8 place-items-center rounded-lg bg-white/5 border border-white/10">
-              <span className="font-mono text-[10px] font-bold text-apple-blue">VXR</span>
+          <a href="#" className="flex items-center gap-3 group">
+            <div className="relative size-7">
+              <div className="absolute inset-0 rounded-sm bg-gradient-to-br from-apple-blue to-apple-purple opacity-80 group-hover:opacity-100 transition" />
+              <div className="absolute inset-[2px] rounded-[1px] bg-void grid place-items-center">
+                <span className="font-mono text-[9px] font-bold text-white/90">V</span>
+              </div>
             </div>
-            <span className="font-display text-sm font-semibold tracking-widest text-white/90">
-              VANTAGE XR
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span className="font-mono text-[11px] font-semibold tracking-[0.25em] text-white/80">VANTAGE</span>
+              <span className="font-mono text-[11px] font-semibold tracking-[0.25em] text-apple-blue">XR</span>
+            </div>
           </a>
 
-          <div className="hidden items-center gap-8 sm:flex">
-            <a href="#features" className="text-xs text-white/60 hover:text-white transition">
-              Features
+          <div className="hidden items-center gap-1 sm:flex">
+            <a href="#features" className="relative px-4 py-1.5 text-[11px] font-mono uppercase tracking-[0.15em] text-white/40 hover:text-white transition group">
+              <span className="relative z-10">Features</span>
+              <div className="absolute inset-0 rounded-sm bg-white/0 group-hover:bg-white/5 transition" />
             </a>
-            <a href="#specs" className="text-xs text-white/60 hover:text-white transition">
-              Specs
+            <a href="#specs" className="relative px-4 py-1.5 text-[11px] font-mono uppercase tracking-[0.15em] text-white/40 hover:text-white transition group">
+              <span className="relative z-10">Specs</span>
+              <div className="absolute inset-0 rounded-sm bg-white/0 group-hover:bg-white/5 transition" />
             </a>
-            <a href="#experience" className="text-xs text-white/60 hover:text-white transition">
-              Experience
+            <a href="#experience" className="relative px-4 py-1.5 text-[11px] font-mono uppercase tracking-[0.15em] text-white/40 hover:text-white transition group">
+              <span className="relative z-10">Experience</span>
+              <div className="absolute inset-0 rounded-sm bg-white/0 group-hover:bg-white/5 transition" />
             </a>
+            <div className="w-px h-4 bg-white/10 mx-2" />
             <a
               href="https://www.apple.com/apple-vision-pro/"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-apple-blue px-4 py-1.5 text-xs font-semibold text-white hover:bg-apple-blue/90 transition"
+              className="relative overflow-hidden rounded-sm border border-apple-blue/40 px-5 py-1.5 text-[11px] font-mono uppercase tracking-[0.15em] text-apple-blue hover:text-white transition group"
             >
-              Apple.com
+              <div className="absolute inset-0 bg-apple-blue/0 group-hover:bg-apple-blue transition" />
+              <span className="relative z-10">Apple.com ↗</span>
             </a>
           </div>
         </div>
 
-        {/* Scroll progress bar */}
-        <div className="h-[1px] w-full bg-white/5">
+        {/* Scroll progress — edge-to-edge line */}
+        <div className="h-px w-full bg-white/[0.03]">
           <div
             ref={progressBarRef}
-            className="h-full bg-gradient-to-r from-apple-blue to-apple-purple"
+            className="h-full bg-gradient-to-r from-apple-blue via-apple-purple to-cyan"
             style={{ width: "0%" }}
           />
         </div>
@@ -183,34 +192,35 @@ export default function App() {
             heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 backdrop-blur">
-            <span className="text-xs text-white/60">Presented by</span>
-            <span className="text-xs font-semibold text-white">Vantage XR</span>
+          <div className="mb-6 inline-flex items-center gap-3 border-l-2 border-apple-blue/60 pl-3">
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">A showcase by</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-apple-blue">Vantage XR</span>
           </div>
 
-          <h1 className="font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-7xl lg:text-8xl">
+          <h1 className="font-display text-5xl font-bold leading-[1.0] tracking-tight sm:text-7xl lg:text-[6.5rem]">
             <span className="gradient-text">Apple</span>
             <br />
-            <span className="text-white">Vision Pro</span>
+            <span className="text-white">Vision <span className="text-apple-blue">Pro</span></span>
           </h1>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/50 sm:text-lg">
-            Welcome to the era of spatial computing. An infinite canvas for apps that scales beyond
-            the limits of a traditional display. An immersive way to experience entertainment.
+          <p className="mx-auto mt-8 max-w-xl font-mono text-sm leading-relaxed text-white/40 sm:text-base">
+            Welcome to the era of spatial computing — an infinite canvas beyond
+            the limits of traditional displays.
           </p>
 
-          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <div className="mt-12 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <a
               href="https://www.apple.com/apple-vision-pro/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center rounded-full bg-apple-blue px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-apple-blue/20 hover:bg-apple-blue/90 transition"
+              className="group relative inline-flex items-center overflow-hidden rounded-sm bg-apple-blue px-8 py-3 text-[12px] font-mono uppercase tracking-[0.2em] text-white transition hover:shadow-lg hover:shadow-apple-blue/25"
             >
-              Learn more at Apple.com ↗
+              <span className="relative z-10">Learn more ↗</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-apple-blue to-apple-purple opacity-0 group-hover:opacity-100 transition" />
             </a>
             <a
               href="#features"
-              className="inline-flex items-center rounded-full border border-white/15 bg-white/5 px-8 py-3.5 text-sm font-semibold text-white/80 hover:bg-white/10 transition"
+              className="inline-flex items-center rounded-sm border border-white/10 px-8 py-3 text-[12px] font-mono uppercase tracking-[0.2em] text-white/50 hover:text-white hover:border-white/25 transition"
             >
               Explore features
             </a>
@@ -264,7 +274,7 @@ export default function App() {
                   <ScrollSection delay={100}>
                     <div
                       className={cn(
-                        "inline-block rounded-full bg-gradient-to-r px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.3em]",
+                        "inline-block rounded-sm bg-gradient-to-r px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-[0.3em]",
                         f.accent
                       )}
                     >
@@ -299,7 +309,7 @@ export default function App() {
           <div className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-3">
             {specs.map((s, i) => (
               <ScrollSection key={s.label} delay={i * 80}>
-                <div className="glass rounded-2xl p-6 text-center">
+                <div className="glass rounded-sm p-6 text-center">
                   <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
                     {s.label}
                   </div>
@@ -336,9 +346,9 @@ export default function App() {
                 href="https://www.apple.com/apple-vision-pro/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-black hover:bg-white/90 transition"
+                className="group relative inline-flex items-center overflow-hidden rounded-sm bg-white px-8 py-3 text-[12px] font-mono uppercase tracking-[0.2em] text-void transition hover:shadow-lg hover:shadow-white/10"
               >
-                Visit Apple.com ↗
+                <span className="relative z-10">Visit Apple.com ↗</span>
               </a>
             </div>
           </ScrollSection>
@@ -362,13 +372,17 @@ export default function App() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <div className="flex items-center gap-2.5">
-                <div className="grid size-8 place-items-center rounded-lg bg-white/5 border border-white/10">
-                  <span className="font-mono text-[10px] font-bold text-apple-blue">VXR</span>
+              <div className="flex items-center gap-3">
+                <div className="relative size-7">
+                  <div className="absolute inset-0 rounded-sm bg-gradient-to-br from-apple-blue to-apple-purple opacity-80" />
+                  <div className="absolute inset-[2px] rounded-[1px] bg-void grid place-items-center">
+                    <span className="font-mono text-[9px] font-bold text-white/90">V</span>
+                  </div>
                 </div>
-                <span className="font-display text-sm font-semibold tracking-widest text-white/90">
-                  VANTAGE XR
-                </span>
+                <div className="flex items-center gap-1.5">
+                  <span className="font-mono text-[11px] font-semibold tracking-[0.25em] text-white/80">VANTAGE</span>
+                  <span className="font-mono text-[11px] font-semibold tracking-[0.25em] text-apple-blue">XR</span>
+                </div>
               </div>
               <p className="mt-3 max-w-xs text-xs leading-relaxed text-white/30">
                 A 3D product experience by Vantage XR. Apple Vision Pro is a trademark of Apple
