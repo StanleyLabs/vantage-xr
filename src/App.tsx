@@ -71,6 +71,21 @@ export default function App() {
     }
     requestAnimationFrame(raf);
 
+    // Intercept anchor clicks for smooth scrolling via Lenis
+    const handleAnchorClick = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement).closest("a");
+      if (!target) return;
+      const href = target.getAttribute("href");
+      if (href && href.startsWith("#") && href.length > 1) {
+        const el = document.querySelector(href);
+        if (el) {
+          e.preventDefault();
+          lenis.scrollTo(el as HTMLElement, { offset: 0 });
+        }
+      }
+    };
+    document.addEventListener("click", handleAnchorClick);
+
     // Track scroll progress
     const onScroll = () => {
       const h = document.documentElement.scrollHeight - window.innerHeight;
@@ -86,6 +101,7 @@ export default function App() {
 
     return () => {
       lenis.destroy();
+      document.removeEventListener("click", handleAnchorClick);
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
