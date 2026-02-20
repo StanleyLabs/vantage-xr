@@ -67,17 +67,17 @@ export default function ProductShowcase({ scrollRef }: Props) {
       // Position: centered early, shifts left when MacBook enters
       let vpX = 0;
       let vpY = 0;
-      let vpScale = 1;
+      let vpScale = 15;
       if (sp > 0.4) {
         const t = THREE.MathUtils.clamp((sp - 0.4) / 0.15, 0, 1);
-        vpX = THREE.MathUtils.lerp(0, -18, t);
-        vpScale = THREE.MathUtils.lerp(1, 0.7, t);
+        vpX = THREE.MathUtils.lerp(0, -2, t);
+        vpScale = THREE.MathUtils.lerp(15, 10, t);
       }
       if (sp > 0.6) {
         const t = THREE.MathUtils.clamp((sp - 0.6) / 0.15, 0, 1);
-        vpX = THREE.MathUtils.lerp(-18, -14, t);
-        vpY = THREE.MathUtils.lerp(0, 10, t);
-        vpScale = THREE.MathUtils.lerp(0.7, 0.55, t);
+        vpX = THREE.MathUtils.lerp(-2, -1.5, t);
+        vpY = THREE.MathUtils.lerp(0, 1.2, t);
+        vpScale = THREE.MathUtils.lerp(10, 8, t);
       }
       vpGroup.current.position.y = THREE.MathUtils.lerp(vpGroup.current.position.y, vpY, delta * 3);
 
@@ -93,17 +93,17 @@ export default function ProductShowcase({ scrollRef }: Props) {
       const mbEnter = THREE.MathUtils.clamp((sp - 0.4) / 0.2, 0, 1);
       const mbSmooth = mbEnter * mbEnter * (3 - 2 * mbEnter); // smoothstep
 
-      let mbX = THREE.MathUtils.lerp(50, 15, mbSmooth);
+      let mbX = THREE.MathUtils.lerp(6, 1.8, mbSmooth);
       let mbY = 0;
-      let mbScale = THREE.MathUtils.lerp(0, 0.7, mbSmooth);
+      let mbScale = THREE.MathUtils.lerp(0, 10, mbSmooth);
       const mbRotY = -0.3 + _state.clock.elapsedTime * 0.1;
 
       // When Mac Mini enters, MacBook shifts
       if (sp > 0.6) {
         const t = THREE.MathUtils.clamp((sp - 0.6) / 0.15, 0, 1);
-        mbX = THREE.MathUtils.lerp(15, 0, t);
-        mbY = THREE.MathUtils.lerp(0, -3, t);
-        mbScale = THREE.MathUtils.lerp(0.7, 0.55, t);
+        mbX = THREE.MathUtils.lerp(1.8, 0, t);
+        mbY = THREE.MathUtils.lerp(0, -0.5, t);
+        mbScale = THREE.MathUtils.lerp(10, 7, t);
       }
 
       mbGroup.current.position.x = THREE.MathUtils.lerp(mbGroup.current.position.x, mbX, delta * 3);
@@ -130,9 +130,9 @@ export default function ProductShowcase({ scrollRef }: Props) {
       const mmEnter = THREE.MathUtils.clamp((sp - 0.6) / 0.2, 0, 1);
       const mmSmooth = mmEnter * mmEnter * (3 - 2 * mmEnter);
 
-      const mmX = THREE.MathUtils.lerp(0, 15, mmSmooth);
-      const mmY = THREE.MathUtils.lerp(-30, -8, mmSmooth);
-      const mmScale = THREE.MathUtils.lerp(0, 0.1, mmSmooth);
+      const mmX = THREE.MathUtils.lerp(0, 1.8, mmSmooth);
+      const mmY = THREE.MathUtils.lerp(-4, -1, mmSmooth);
+      const mmScale = THREE.MathUtils.lerp(0, 10, mmSmooth);
       const mmRotY = 0.5 + _state.clock.elapsedTime * 0.08;
 
       mmGroup.current.position.x = THREE.MathUtils.lerp(mmGroup.current.position.x, mmX, delta * 3);
@@ -149,10 +149,10 @@ export default function ProductShowcase({ scrollRef }: Props) {
 
     // ── Camera ──
     // Pull back slightly as more products appear
-    let camZ = 40;
+    let camZ = 4;
     if (sp > 0.6) {
       const t = THREE.MathUtils.clamp((sp - 0.6) / 0.2, 0, 1);
-      camZ = THREE.MathUtils.lerp(40, 55, t);
+      camZ = THREE.MathUtils.lerp(4, 6, t);
     }
     camera.position.z = THREE.MathUtils.lerp(camera.position.z, camZ, delta * 2);
   });
@@ -174,12 +174,12 @@ export default function ProductShowcase({ scrollRef }: Props) {
       </Float>
 
       {/* MacBook Pro — starts offscreen right */}
-      <group ref={mbGroup} position={[50, 0, 0]} scale={0}>
+      <group ref={mbGroup} position={[6, 0, 0]} scale={0}>
         <primitive object={mb.scene} />
       </group>
 
       {/* Mac Mini — starts offscreen below */}
-      <group ref={mmGroup} position={[0, -30, 0]} scale={0}>
+      <group ref={mmGroup} position={[0, -4, 0]} scale={0}>
         <primitive object={mm.scene} />
       </group>
     </>
