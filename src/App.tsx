@@ -9,44 +9,47 @@ function cn(...x: Array<string | false | null | undefined>) {
   return x.filter(Boolean).join(" ");
 }
 
-/* ── Ecosystem modes ── */
-const modes = [
+/* ── Feature data ── */
+const features = [
   {
-    label: "STANDALONE",
-    title: "Vision Pro.\nUnleashed.",
-    desc: "Use Vision Pro on its own for an immersive spatial experience. Browse the web, watch films on a 100-foot screen, run apps in your living room — no other device needed. The M2 chip handles everything.",
+    label: "SPATIAL COMPUTING",
+    title: "Your apps live\nin your world.",
+    desc: "Apple Vision Pro seamlessly blends digital content with your physical space. Apps scale to the perfect size, and you can spread them around you — beyond the limits of any display.",
     accent: "from-apple-blue/20 to-transparent",
-    color: "text-apple-blue",
   },
   {
-    label: "ON THE GO",
-    title: "MacBook Pro\nmeets infinite display.",
-    desc: "Pair Vision Pro with your MacBook Pro and your laptop screen becomes a massive, private workspace that travels with you. Code on the plane. Design in a hotel room. Your Mac, projected into space.",
+    label: "EYESIGHT",
+    title: "Present, even\nwhile immersed.",
+    desc: "A revolutionary outward display reveals your eyes to those around you, letting people know when you're using apps or fully immersed in an experience.",
     accent: "from-apple-purple/20 to-transparent",
-    color: "text-apple-purple",
   },
   {
-    label: "MAX PERFORMANCE",
-    title: "Mac Mini.\nDesktop power, spatial scale.",
-    desc: "Connect to Mac Mini with M4 Pro and unlock extreme performance in a spatial environment. Render 3D scenes, compile massive projects, run pro apps — all on a display that wraps around you.",
+    label: "MICRO‑OLED",
+    title: "23 million pixels.\nTwo displays.",
+    desc: "More pixels than a 4K TV — for each eye. Apple's custom micro‑OLED display system delivers stunning resolution with wide color and HDR support.",
     accent: "from-cyan/20 to-transparent",
-    color: "text-cyan",
   },
-];
-
-const products = [
-  { name: "Vision Pro", chip: "M2 + R1", role: "Spatial Display", link: "https://www.apple.com/apple-vision-pro/" },
-  { name: "MacBook Pro", chip: "M4 Pro/Max", role: "Portable Power", link: "https://www.apple.com/macbook-pro/" },
-  { name: "Mac Mini", chip: "M4 / M4 Pro", role: "Desktop Engine", link: "https://www.apple.com/mac-mini/" },
+  {
+    label: "MACBOOK PRO",
+    title: "Your laptop,\nprojected into space.",
+    desc: "Pair Vision Pro with MacBook Pro and your screen becomes a massive, private workspace that travels with you. Code on a plane. Design in a hotel. Your Mac, but spatial.",
+    accent: "from-rose-500/20 to-transparent",
+  },
+  {
+    label: "MAC MINI",
+    title: "Desktop power.\nSpatial scale.",
+    desc: "Connect to Mac Mini with M4 Pro for extreme performance in a spatial environment. Render 3D scenes, compile massive projects — all on a display that wraps around you.",
+    accent: "from-emerald-500/20 to-transparent",
+  },
 ];
 
 const specs = [
-  { label: "Vision Pro Display", value: "23M pixels" },
-  { label: "Vision Pro Chips", value: "M2 + R1" },
-  { label: "MacBook Pro", value: "Up to M4 Max" },
-  { label: "Mac Mini", value: "Up to M4 Pro" },
-  { label: "Connection", value: "Wireless" },
-  { label: "Latency", value: "Ultra‑low" },
+  { label: "Display", value: "Micro‑OLED" },
+  { label: "Pixels", value: "23M total" },
+  { label: "Chips", value: "M2 + R1" },
+  { label: "Tracking", value: "Eye + Hand" },
+  { label: "Audio", value: "Spatial" },
+  { label: "Weight", value: "~600g" },
 ];
 
 /* ── App ── */
@@ -132,14 +135,14 @@ export default function App() {
 
           <div className="hidden items-center gap-6 sm:flex">
             <span className="text-white/15">|</span>
-            <a href="#ecosystem" className="text-xs text-white/60 hover:text-white transition">
-              Ecosystem
+            <a href="#features" className="text-xs text-white/60 hover:text-white transition">
+              Features
             </a>
             <a href="#specs" className="text-xs text-white/60 hover:text-white transition">
               Specs
             </a>
-            <a href="#setup" className="text-xs text-white/60 hover:text-white transition">
-              Your Setup
+            <a href="#experience" className="text-xs text-white/60 hover:text-white transition">
+              Experience
             </a>
             <span className="text-white/15">|</span>
             <a
@@ -183,33 +186,35 @@ export default function App() {
           )}
         >
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 backdrop-blur">
-            <span className="text-xs text-white/60">Three devices.</span>
-            <span className="text-xs font-semibold text-white">One experience.</span>
+            <span className="text-xs text-white/60">Presented by</span>
+            <span className="text-xs font-semibold text-white">Vantage XR</span>
           </div>
 
           <h1 className="font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-7xl lg:text-8xl">
-            <span className="gradient-text">The Apple</span>
+            <span className="gradient-text">Apple</span>
             <br />
-            <span className="text-white">Spatial Ecosystem</span>
+            <span className="text-white">Vision Pro</span>
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/50 sm:text-lg">
-            Vision Pro. MacBook Pro. Mac Mini. Each one powerful alone — but together they create a
-            seamless spatial computing experience that adapts to how you work, create, and play.
+            Welcome to the era of spatial computing. An infinite canvas that scales beyond
+            the limits of a traditional display — and pairs with the devices you already love.
           </p>
 
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <a
-              href="#ecosystem"
+              href="https://www.apple.com/apple-vision-pro/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center rounded-full bg-apple-blue px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-apple-blue/20 hover:bg-apple-blue/90 transition"
             >
-              Explore the ecosystem
+              Learn more at Apple.com ↗
             </a>
             <a
-              href="#setup"
+              href="#features"
               className="inline-flex items-center rounded-full border border-white/15 bg-white/5 px-8 py-3.5 text-sm font-semibold text-white/80 hover:bg-white/10 transition"
             >
-              Build your setup
+              Explore features
             </a>
           </div>
 
@@ -227,19 +232,18 @@ export default function App() {
         <div className="relative mx-auto max-w-4xl px-6 text-center">
           <ScrollSection>
             <p className="font-display text-2xl font-light leading-relaxed text-white/70 sm:text-4xl sm:leading-relaxed">
-              Use Vision Pro <span className="text-white font-medium">standalone</span> for immersive
-              entertainment. Pair it with a{" "}
-              <span className="text-white font-medium">MacBook Pro</span> for a portable infinite
-              workspace. Connect to a{" "}
-              <span className="text-white font-medium">Mac Mini</span> for raw desktop power in
-              spatial scale.
+              Apple Vision Pro is Apple's first spatial computer.
+              It lets you navigate simply by{" "}
+              <span className="text-white font-medium">looking at items</span>, tapping your fingers
+              to <span className="text-white font-medium">select</span>, and using a{" "}
+              <span className="text-white font-medium">natural hand gesture</span> to scroll.
             </p>
           </ScrollSection>
         </div>
       </section>
 
-      {/* ── Ecosystem Modes — 3D Sticky Scroll ── */}
-      <section id="ecosystem" className="relative">
+      {/* ── 3D Sticky Scroll Section ── */}
+      <section id="features" className="relative">
         {/* Sticky 3D model */}
         <div className="sticky top-0 z-0 h-dvh w-full">
           <div className="absolute inset-0 bg-gradient-to-b from-void via-void/95 to-void" />
@@ -248,9 +252,9 @@ export default function App() {
           </Suspense>
         </div>
 
-        {/* Overlaid scroll sections — three modes */}
+        {/* Overlaid scroll sections */}
         <div className="relative z-10 -mt-[100vh]">
-          {modes.map((m, i) => (
+          {features.map((f, i) => (
             <div key={i} className="flex min-h-dvh items-center">
               <div className="mx-auto w-full max-w-7xl px-6">
                 <div
@@ -263,16 +267,16 @@ export default function App() {
                     <div
                       className={cn(
                         "inline-block rounded-full bg-gradient-to-r px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.3em]",
-                        m.accent
+                        f.accent
                       )}
                     >
-                      {m.label}
+                      {f.label}
                     </div>
                     <h2 className="mt-4 font-display text-3xl font-bold leading-[1.1] text-white sm:text-5xl whitespace-pre-line">
-                      {m.title}
+                      {f.title}
                     </h2>
                     <p className="mt-4 text-base leading-relaxed text-white/50 sm:text-lg">
-                      {m.desc}
+                      {f.desc}
                     </p>
                   </ScrollSection>
                 </div>
@@ -288,9 +292,9 @@ export default function App() {
           <ScrollSection>
             <div className="text-center">
               <h2 className="font-display text-3xl font-bold text-white sm:text-5xl">
-                The specs that matter.
+                Built different.
               </h2>
-              <p className="mt-3 text-white/50">Three devices, engineered to work as one.</p>
+              <p className="mt-3 text-white/50">The most advanced personal electronics device ever.</p>
             </div>
           </ScrollSection>
 
@@ -311,62 +315,46 @@ export default function App() {
         </div>
       </section>
 
-      {/* ── Your Setup — Product Cards ── */}
-      <section id="setup" className="relative overflow-hidden py-32 sm:py-40">
+      {/* ── Immersive Experience CTA ── */}
+      <section id="experience" className="relative overflow-hidden py-32 sm:py-40">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_100%,rgba(191,90,242,0.12),transparent)]" />
-        <div className="relative mx-auto max-w-5xl px-6">
+        <div className="relative mx-auto max-w-4xl px-6 text-center">
           <ScrollSection>
-            <div className="text-center">
-              <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-apple-purple">
-                Build your setup
-              </div>
-              <h2 className="mt-4 font-display text-3xl font-bold leading-tight text-white sm:text-6xl">
-                Choose your mode.
-                <br />
-                <span className="text-white/50">Scale when you need to.</span>
-              </h2>
-              <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/50 sm:text-lg">
-                Start with Vision Pro standalone. Add a MacBook Pro for portable productivity.
-                Go all-in with Mac Mini for maximum power. The ecosystem grows with you.
-              </p>
+            <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-apple-purple">
+              The experience
+            </div>
+            <h2 className="mt-4 font-display text-3xl font-bold leading-tight text-white sm:text-6xl">
+              The ultimate theater.
+              <br />
+              <span className="text-white/50">Wherever you are.</span>
+            </h2>
+            <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/50 sm:text-lg">
+              Transform any room into a personal movie theater with a screen that feels 100 feet
+              wide. Watch Apple Immersive Video and experience stories like never before.
+            </p>
+
+            <div className="mt-10">
+              <a
+                href="https://www.apple.com/apple-vision-pro/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-black hover:bg-white/90 transition"
+              >
+                Visit Apple.com ↗
+              </a>
             </div>
           </ScrollSection>
-
-          <div className="mt-16 grid gap-6 sm:grid-cols-3">
-            {products.map((p, i) => (
-              <ScrollSection key={p.name} delay={i * 120}>
-                <a
-                  href={p.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="glass rounded-2xl p-8 block group hover:border-white/20 transition-all duration-300"
-                >
-                  <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
-                    {p.role}
-                  </div>
-                  <h3 className="mt-3 font-display text-2xl font-bold text-white group-hover:text-apple-blue transition">
-                    {p.name}
-                  </h3>
-                  <div className="mt-2 text-sm text-white/50">{p.chip}</div>
-                  <div className="mt-6 text-xs text-white/30 group-hover:text-white/60 transition">
-                    Learn more ↗
-                  </div>
-                </a>
-              </ScrollSection>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* ── Closing Statement ── */}
+      {/* ── Quote ── */}
       <section className="py-24 sm:py-32">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <ScrollSection>
-            <p className="font-display text-xl font-light italic leading-relaxed text-white/60 sm:text-3xl sm:leading-relaxed">
-              One headset. One laptop. One desktop.
-              <br />
-              <span className="text-white/80">Infinite possibilities.</span>
-            </p>
+            <blockquote className="font-display text-xl font-light italic leading-relaxed text-white/60 sm:text-3xl sm:leading-relaxed">
+              "It's the most extraordinary piece of electronics I have ever seen."
+            </blockquote>
+            <div className="mt-6 text-sm text-white/30">— Marques Brownlee</div>
           </ScrollSection>
         </div>
       </section>
@@ -385,28 +373,35 @@ export default function App() {
                 </span>
               </div>
               <p className="mt-3 max-w-xs text-xs leading-relaxed text-white/30">
-                An Apple ecosystem experience by Vantage XR. All product names are trademarks of
-                Apple Inc. This site is a design showcase and is not affiliated with or endorsed by
-                Apple Inc.
+                A 3D product experience by Vantage XR. Apple Vision Pro is a trademark of Apple
+                Inc. This site is a design showcase and is not affiliated with or endorsed by Apple
+                Inc.
               </p>
             </div>
 
             <div className="flex flex-col gap-3 text-right">
-              <a href="https://www.apple.com/apple-vision-pro/" target="_blank" rel="noopener noreferrer" className="text-xs text-white/40 hover:text-white transition">
-                Vision Pro ↗
+              <a
+                href="https://www.apple.com/apple-vision-pro/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-white/40 hover:text-white transition"
+              >
+                apple.com/apple-vision-pro ↗
               </a>
-              <a href="https://www.apple.com/macbook-pro/" target="_blank" rel="noopener noreferrer" className="text-xs text-white/40 hover:text-white transition">
-                MacBook Pro ↗
-              </a>
-              <a href="https://www.apple.com/mac-mini/" target="_blank" rel="noopener noreferrer" className="text-xs text-white/40 hover:text-white transition">
-                Mac Mini ↗
+              <a
+                href="https://www.apple.com/legal/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-white/40 hover:text-white transition"
+              >
+                Apple Legal ↗
               </a>
             </div>
           </div>
 
           <div className="mt-10 border-t border-white/5 pt-6 text-center text-[10px] text-white/20">
-            Apple, Apple Vision Pro, MacBook Pro, Mac Mini, and the Apple logo are trademarks of Apple Inc.,
-            registered in the U.S. and other countries. This is an independent design project by Vantage XR.
+            Apple, Apple Vision Pro, and the Apple logo are trademarks of Apple Inc., registered in
+            the U.S. and other countries. This is an independent design project by Vantage XR.
             <br />
             © {new Date().getFullYear()} Vantage XR. All rights reserved.
           </div>
