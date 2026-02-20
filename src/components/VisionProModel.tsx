@@ -1,194 +1,186 @@
-import { useRef, useMemo } from "react";
-import { useFrame } from "@react-three/fiber";
-import { MeshTransmissionMaterial, Float, Environment } from "@react-three/drei";
+import { useRef, useEffect } from "react";
+import { useFrame, useThree } from "@react-three/fiber";
+import { useGLTF, Float, Environment } from "@react-three/drei";
 import * as THREE from "three";
 
-/**
- * Stylized Apple Vision Pro headset built from Three.js geometry.
- * Uses a curved visor (extruded rounded-rect shape) + body shell.
- */
-function VisorGlass() {
-  const meshRef = useRef<THREE.Mesh>(null!);
+// Preload models
+useGLTF.preload("/models/apple_vision_pro_1k.glb");
+useGLTF.preload("/models/apple_macbook_pro_1k.glb");
+useGLTF.preload("/models/apple_mac_mini_1k.glb");
 
-  const visorShape = useMemo(() => {
-    const shape = new THREE.Shape();
-    const w = 2.4;
-    const h = 1.1;
-    const r = 0.45;
-    shape.moveTo(-w / 2 + r, -h / 2);
-    shape.lineTo(w / 2 - r, -h / 2);
-    shape.quadraticCurveTo(w / 2, -h / 2, w / 2, -h / 2 + r);
-    shape.lineTo(w / 2, h / 2 - r);
-    shape.quadraticCurveTo(w / 2, h / 2, w / 2 - r, h / 2);
-    shape.lineTo(-w / 2 + r, h / 2);
-    shape.quadraticCurveTo(-w / 2, h / 2, -w / 2, h / 2 - r);
-    shape.lineTo(-w / 2, -h / 2 + r);
-    shape.quadraticCurveTo(-w / 2, -h / 2, -w / 2 + r, -h / 2);
-    return shape;
-  }, []);
-
-  const extrudeSettings = useMemo(
-    () => ({
-      depth: 0.15,
-      bevelEnabled: true,
-      bevelThickness: 0.06,
-      bevelSize: 0.04,
-      bevelSegments: 8,
-      curveSegments: 48,
-    }),
-    []
-  );
-
-  return (
-    <mesh ref={meshRef} position={[0, 0, 0.45]}>
-      <extrudeGeometry args={[visorShape, extrudeSettings]} />
-      <MeshTransmissionMaterial
-        backside
-        samples={6}
-        thickness={0.4}
-        chromaticAberration={0.15}
-        anisotropy={0.2}
-        distortion={0.1}
-        distortionScale={0.2}
-        temporalDistortion={0.1}
-        ior={1.5}
-        color="#8B8B9E"
-        attenuationColor="#C8C8D4"
-        attenuationDistance={0.6}
-        roughness={0.05}
-        transmission={0.95}
-        clearcoat={1}
-        clearcoatRoughness={0.05}
-      />
-    </mesh>
-  );
-}
-
-function BodyShell() {
-  const shellShape = useMemo(() => {
-    const shape = new THREE.Shape();
-    const w = 2.5;
-    const h = 1.2;
-    const r = 0.5;
-    shape.moveTo(-w / 2 + r, -h / 2);
-    shape.lineTo(w / 2 - r, -h / 2);
-    shape.quadraticCurveTo(w / 2, -h / 2, w / 2, -h / 2 + r);
-    shape.lineTo(w / 2, h / 2 - r);
-    shape.quadraticCurveTo(w / 2, h / 2, w / 2 - r, h / 2);
-    shape.lineTo(-w / 2 + r, h / 2);
-    shape.quadraticCurveTo(-w / 2, h / 2, -w / 2, h / 2 - r);
-    shape.lineTo(-w / 2, -h / 2 + r);
-    shape.quadraticCurveTo(-w / 2, -h / 2, -w / 2 + r, -h / 2);
-    return shape;
-  }, []);
-
-  const extrudeSettings = useMemo(
-    () => ({
-      depth: 0.65,
-      bevelEnabled: true,
-      bevelThickness: 0.08,
-      bevelSize: 0.06,
-      bevelSegments: 6,
-      curveSegments: 48,
-    }),
-    []
-  );
-
-  return (
-    <mesh position={[0, 0, -0.15]}>
-      <extrudeGeometry args={[shellShape, extrudeSettings]} />
-      <meshPhysicalMaterial
-        color="#E8E8ED"
-        metalness={0.9}
-        roughness={0.15}
-        clearcoat={0.8}
-        clearcoatRoughness={0.1}
-        envMapIntensity={1.2}
-      />
-    </mesh>
-  );
-}
-
-function HeadbandStrap() {
-  return (
-    <>
-      {/* Left strap connector */}
-      <mesh position={[-1.35, 0, 0.15]} rotation={[0, -0.3, 0]}>
-        <boxGeometry args={[0.15, 0.35, 0.1]} />
-        <meshPhysicalMaterial color="#D4D4D8" metalness={0.8} roughness={0.2} />
-      </mesh>
-      {/* Right strap connector */}
-      <mesh position={[1.35, 0, 0.15]} rotation={[0, 0.3, 0]}>
-        <boxGeometry args={[0.15, 0.35, 0.1]} />
-        <meshPhysicalMaterial color="#D4D4D8" metalness={0.8} roughness={0.2} />
-      </mesh>
-    </>
-  );
-}
-
-function DigitalCrown() {
-  return (
-    <mesh position={[1.42, 0.35, 0.25]} rotation={[0, 0, Math.PI / 2]}>
-      <cylinderGeometry args={[0.06, 0.06, 0.08, 32]} />
-      <meshPhysicalMaterial color="#C0C0C8" metalness={0.95} roughness={0.1} />
-    </mesh>
-  );
-}
-
-interface VisionProModelProps {
+interface Props {
   scrollRef: React.RefObject<number>;
 }
 
-export default function VisionProModel({ scrollRef }: VisionProModelProps) {
-  const groupRef = useRef<THREE.Group>(null!);
+/**
+ * Scroll-driven product showcase:
+ * 0.00–0.45  → Vision Pro solo (features 1-3)
+ * 0.45–0.65  → MacBook Pro slides in, VP shifts left
+ * 0.65–0.85  → Mac Mini appears, full ecosystem
+ * 0.85–1.00  → Closing / pull back
+ */
+export default function ProductShowcase({ scrollRef }: Props) {
+  const vpGroup = useRef<THREE.Group>(null!);
+  const mbGroup = useRef<THREE.Group>(null!);
+  const mmGroup = useRef<THREE.Group>(null!);
+
+  const vp = useGLTF("/models/apple_vision_pro_1k.glb");
+  const mb = useGLTF("/models/apple_macbook_pro_1k.glb");
+  const mm = useGLTF("/models/apple_mac_mini_1k.glb");
+
+  const { camera } = useThree();
+
+  // Center and normalize models on first load
+  useEffect(() => {
+    [vp, mb, mm].forEach((model) => {
+      model.scene.traverse((child) => {
+        if ((child as THREE.Mesh).isMesh) {
+          const mesh = child as THREE.Mesh;
+          if (mesh.material) {
+            (mesh.material as THREE.MeshStandardMaterial).envMapIntensity = 1.5;
+          }
+        }
+      });
+    });
+  }, [vp, mb, mm]);
 
   useFrame((_state, delta) => {
-    if (!groupRef.current) return;
-
-    // Scroll-driven rotation
     const sp = scrollRef.current ?? 0;
-    const targetRotY = sp * Math.PI * 2;
-    const targetRotX = Math.sin(sp * Math.PI) * 0.3;
 
-    groupRef.current.rotation.y = THREE.MathUtils.lerp(
-      groupRef.current.rotation.y,
-      targetRotY,
-      delta * 3
-    );
-    groupRef.current.rotation.x = THREE.MathUtils.lerp(
-      groupRef.current.rotation.x,
-      targetRotX,
-      delta * 3
-    );
+    // ── Vision Pro ──
+    if (vpGroup.current) {
+      // Slow auto-rotate + scroll-driven rotation
+      const vpRotY = sp * Math.PI * 1.5 + _state.clock.elapsedTime * 0.15;
+      const vpRotX = Math.sin(sp * Math.PI) * 0.15;
 
-    // Scale breathing
-    const scale = 1 + Math.sin(sp * Math.PI * 4) * 0.03;
-    groupRef.current.scale.setScalar(scale);
+      vpGroup.current.rotation.y = THREE.MathUtils.lerp(
+        vpGroup.current.rotation.y,
+        vpRotY,
+        delta * 2
+      );
+      vpGroup.current.rotation.x = THREE.MathUtils.lerp(
+        vpGroup.current.rotation.x,
+        vpRotX,
+        delta * 2
+      );
+
+      // Position: centered early, shifts left when MacBook enters
+      let vpX = 0;
+      let vpScale = 1;
+      if (sp > 0.4) {
+        const t = THREE.MathUtils.clamp((sp - 0.4) / 0.15, 0, 1);
+        vpX = THREE.MathUtils.lerp(0, -1.8, t);
+        vpScale = THREE.MathUtils.lerp(1, 0.7, t);
+      }
+      if (sp > 0.6) {
+        const t = THREE.MathUtils.clamp((sp - 0.6) / 0.15, 0, 1);
+        vpX = THREE.MathUtils.lerp(-1.8, -1.2, t);
+        const vpY = THREE.MathUtils.lerp(0, 1.2, t);
+        vpGroup.current.position.y = THREE.MathUtils.lerp(vpGroup.current.position.y, vpY, delta * 3);
+        vpScale = THREE.MathUtils.lerp(0.7, 0.55, t);
+      }
+
+      vpGroup.current.position.x = THREE.MathUtils.lerp(vpGroup.current.position.x, vpX, delta * 3);
+      vpGroup.current.scale.setScalar(
+        THREE.MathUtils.lerp(vpGroup.current.scale.x, vpScale, delta * 3)
+      );
+    }
+
+    // ── MacBook Pro ──
+    if (mbGroup.current) {
+      // Slides in from the right at ~0.45
+      const mbEnter = THREE.MathUtils.clamp((sp - 0.4) / 0.2, 0, 1);
+      const mbSmooth = mbEnter * mbEnter * (3 - 2 * mbEnter); // smoothstep
+
+      let mbX = THREE.MathUtils.lerp(5, 1.5, mbSmooth);
+      let mbY = 0;
+      let mbScale = THREE.MathUtils.lerp(0, 0.7, mbSmooth);
+      const mbRotY = -0.3 + _state.clock.elapsedTime * 0.1;
+
+      // When Mac Mini enters, MacBook shifts
+      if (sp > 0.6) {
+        const t = THREE.MathUtils.clamp((sp - 0.6) / 0.15, 0, 1);
+        mbX = THREE.MathUtils.lerp(1.5, 0, t);
+        mbY = THREE.MathUtils.lerp(0, -0.3, t);
+        mbScale = THREE.MathUtils.lerp(0.7, 0.55, t);
+      }
+
+      mbGroup.current.position.x = THREE.MathUtils.lerp(mbGroup.current.position.x, mbX, delta * 3);
+      mbGroup.current.position.y = THREE.MathUtils.lerp(mbGroup.current.position.y, mbY, delta * 3);
+      mbGroup.current.scale.setScalar(
+        THREE.MathUtils.lerp(mbGroup.current.scale.x, mbScale, delta * 3)
+      );
+      mbGroup.current.rotation.y = THREE.MathUtils.lerp(
+        mbGroup.current.rotation.y,
+        mbRotY,
+        delta * 2
+      );
+
+      // Lid open animation (rotate first child if it's the lid)
+      const lidAngle = THREE.MathUtils.lerp(0, -Math.PI * 0.4, mbSmooth);
+      const lid = mbGroup.current.children[0]?.children[0]?.children[0];
+      if (lid) {
+        lid.rotation.x = THREE.MathUtils.lerp(lid.rotation.x, lidAngle, delta * 2);
+      }
+    }
+
+    // ── Mac Mini ──
+    if (mmGroup.current) {
+      const mmEnter = THREE.MathUtils.clamp((sp - 0.6) / 0.2, 0, 1);
+      const mmSmooth = mmEnter * mmEnter * (3 - 2 * mmEnter);
+
+      const mmX = THREE.MathUtils.lerp(0, 1.5, mmSmooth);
+      const mmY = THREE.MathUtils.lerp(-3, -1.0, mmSmooth);
+      const mmScale = THREE.MathUtils.lerp(0, 0.7, mmSmooth);
+      const mmRotY = 0.5 + _state.clock.elapsedTime * 0.08;
+
+      mmGroup.current.position.x = THREE.MathUtils.lerp(mmGroup.current.position.x, mmX, delta * 3);
+      mmGroup.current.position.y = THREE.MathUtils.lerp(mmGroup.current.position.y, mmY, delta * 3);
+      mmGroup.current.scale.setScalar(
+        THREE.MathUtils.lerp(mmGroup.current.scale.x, mmScale, delta * 3)
+      );
+      mmGroup.current.rotation.y = THREE.MathUtils.lerp(
+        mmGroup.current.rotation.y,
+        mmRotY,
+        delta * 2
+      );
+    }
+
+    // ── Camera ──
+    // Pull back slightly as more products appear
+    let camZ = 4;
+    if (sp > 0.6) {
+      const t = THREE.MathUtils.clamp((sp - 0.6) / 0.2, 0, 1);
+      camZ = THREE.MathUtils.lerp(4, 5.5, t);
+    }
+    camera.position.z = THREE.MathUtils.lerp(camera.position.z, camZ, delta * 2);
   });
 
   return (
     <>
       <Environment preset="city" />
-      <ambientLight intensity={0.3} />
-      <directionalLight position={[5, 5, 5]} intensity={1.2} color="#ffffff" />
-      <directionalLight position={[-3, 2, -2]} intensity={0.4} color="#2997FF" />
+      <ambientLight intensity={0.4} />
+      <directionalLight position={[5, 5, 5]} intensity={1.5} color="#ffffff" />
+      <directionalLight position={[-3, 2, -2]} intensity={0.5} color="#2997FF" />
       <pointLight position={[0, 0, 3]} intensity={0.8} color="#BF5AF2" distance={8} />
-      <spotLight
-        position={[0, 5, 0]}
-        angle={0.4}
-        penumbra={1}
-        intensity={0.6}
-        color="#ffffff"
-      />
+      <spotLight position={[0, 5, 0]} angle={0.4} penumbra={1} intensity={0.6} />
 
-      <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.3}>
-        <group ref={groupRef}>
-          <VisorGlass />
-          <BodyShell />
-          <HeadbandStrap />
-          <DigitalCrown />
+      {/* Vision Pro — hero product */}
+      <Float speed={1.5} rotationIntensity={0.05} floatIntensity={0.2}>
+        <group ref={vpGroup}>
+          <primitive object={vp.scene} />
         </group>
       </Float>
+
+      {/* MacBook Pro — starts offscreen right */}
+      <group ref={mbGroup} position={[5, 0, 0]} scale={0}>
+        <primitive object={mb.scene} />
+      </group>
+
+      {/* Mac Mini — starts offscreen below */}
+      <group ref={mmGroup} position={[0, -3, 0]} scale={0}>
+        <primitive object={mm.scene} />
+      </group>
     </>
   );
 }

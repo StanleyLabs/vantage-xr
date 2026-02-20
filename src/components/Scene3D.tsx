@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import VisionProModel from "./VisionProModel";
+import ProductShowcase from "./VisionProModel";
 
 interface Scene3DProps {
   scrollRef: React.RefObject<number>;
@@ -28,7 +28,7 @@ export default function Scene3D({ scrollRef }: Scene3DProps) {
           }}
           style={{ background: "transparent" }}
         >
-          <VisionProModel scrollRef={scrollRef} />
+          <ProductShowcase scrollRef={scrollRef} />
         </Canvas>
       </Suspense>
     </div>
