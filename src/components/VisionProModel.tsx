@@ -136,18 +136,19 @@ function DigitalCrown() {
 }
 
 interface VisionProModelProps {
-  scrollProgress: number;
+  scrollRef: React.RefObject<number>;
 }
 
-export default function VisionProModel({ scrollProgress }: VisionProModelProps) {
+export default function VisionProModel({ scrollRef }: VisionProModelProps) {
   const groupRef = useRef<THREE.Group>(null!);
 
   useFrame((_state, delta) => {
     if (!groupRef.current) return;
 
     // Scroll-driven rotation
-    const targetRotY = scrollProgress * Math.PI * 2;
-    const targetRotX = Math.sin(scrollProgress * Math.PI) * 0.3;
+    const sp = scrollRef.current ?? 0;
+    const targetRotY = sp * Math.PI * 2;
+    const targetRotX = Math.sin(sp * Math.PI) * 0.3;
 
     groupRef.current.rotation.y = THREE.MathUtils.lerp(
       groupRef.current.rotation.y,
@@ -161,7 +162,7 @@ export default function VisionProModel({ scrollProgress }: VisionProModelProps) 
     );
 
     // Scale breathing
-    const scale = 1 + Math.sin(scrollProgress * Math.PI * 4) * 0.03;
+    const scale = 1 + Math.sin(sp * Math.PI * 4) * 0.03;
     groupRef.current.scale.setScalar(scale);
   });
 

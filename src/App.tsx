@@ -54,9 +54,10 @@ const specs = [
 
 /* ── App ── */
 export default function App() {
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [heroVisible, setHeroVisible] = useState(false);
   const scrollRef = useRef(0);
+  const progressBarRef = useRef<HTMLDivElement>(null);
+  const navBgRef = useRef<HTMLDivElement>(null);
 
   // Lenis smooth scroll
   useEffect(() => {
@@ -86,10 +87,21 @@ export default function App() {
     };
     document.addEventListener("click", handleAnchorClick);
 
-    // Track scroll progress via Lenis for silky-smooth updates
+    // Track scroll progress via Lenis — direct DOM updates, no React re-renders
     lenis.on("scroll", ({ progress }: { progress: number }) => {
       scrollRef.current = progress;
-      setScrollProgress(progress);
+      if (progressBarRef.current) {
+        progressBarRef.current.style.width = `${progress * 100}%`;
+      }
+      if (navBgRef.current) {
+        if (progress > 0.02) {
+          navBgRef.current.classList.add("bg-void/70", "backdrop-blur-xl");
+          navBgRef.current.classList.remove("bg-transparent");
+        } else {
+          navBgRef.current.classList.remove("bg-void/70", "backdrop-blur-xl");
+          navBgRef.current.classList.add("bg-transparent");
+        }
+      }
     });
 
     // Hero reveal
@@ -106,9 +118,10 @@ export default function App() {
       {/* ── Navbar ── */}
       <nav className="fixed top-0 z-50 w-full">
         <div
+          ref={navBgRef}
           className={cn(
             "mx-auto flex h-14 max-w-7xl items-center justify-between px-6 transition-all duration-500",
-            scrollProgress > 0.02 ? "bg-void/70 backdrop-blur-xl" : "bg-transparent"
+            "bg-transparent"
           )}
         >
           <a href="#" className="flex items-center gap-2.5">
@@ -144,8 +157,9 @@ export default function App() {
         {/* Scroll progress bar */}
         <div className="h-[1px] w-full bg-white/5">
           <div
-            className="h-full bg-gradient-to-r from-apple-blue to-apple-purple transition-[width] duration-100"
-            style={{ width: `${scrollProgress * 100}%` }}
+            ref={progressBarRef}
+            className="h-full bg-gradient-to-r from-apple-blue to-apple-purple"
+            style={{ width: "0%" }}
           />
         </div>
       </nav>
@@ -158,7 +172,7 @@ export default function App() {
         {/* 3D Scene — sticky behind content */}
         <div className="absolute inset-0 z-0">
           <Suspense fallback={null}>
-            <Scene3D scrollProgress={scrollProgress} />
+            <Scene3D scrollRef={scrollRef} />
           </Suspense>
         </div>
 
@@ -232,7 +246,7 @@ export default function App() {
         <div className="sticky top-0 z-0 h-dvh w-full">
           <div className="absolute inset-0 bg-gradient-to-b from-void via-void/95 to-void" />
           <Suspense fallback={null}>
-            <Scene3D scrollProgress={scrollProgress} />
+            <Scene3D scrollRef={scrollRef} />
           </Suspense>
         </div>
 

@@ -3,7 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import VisionProModel from "./VisionProModel";
 
 interface Scene3DProps {
-  scrollProgress: number;
+  scrollRef: React.RefObject<number>;
 }
 
 function Loader() {
@@ -14,7 +14,7 @@ function Loader() {
   );
 }
 
-export default function Scene3D({ scrollProgress }: Scene3DProps) {
+export default function Scene3D({ scrollRef }: Scene3DProps) {
   return (
     <div className="relative h-full w-full">
       <Suspense fallback={<Loader />}>
@@ -28,7 +28,7 @@ export default function Scene3D({ scrollProgress }: Scene3DProps) {
           }}
           style={{ background: "transparent" }}
         >
-          <VisionProModel scrollProgress={scrollProgress} />
+          <VisionProModel scrollRef={scrollRef} />
         </Canvas>
       </Suspense>
     </div>
