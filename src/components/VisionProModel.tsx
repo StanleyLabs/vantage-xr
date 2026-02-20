@@ -6,7 +6,7 @@ import * as THREE from "three";
 // Preload models
 useGLTF.preload("/models/apple_vision_pro_1k.glb");
 useGLTF.preload("/models/apple_macbook_pro_1k.glb");
-useGLTF.preload("/models/apple_mac_mini_1k.glb");
+useGLTF.preload("/models/apple_mac_mini_m4_pro.glb");
 
 interface Props {
   scrollRef: React.RefObject<number>;
@@ -26,7 +26,7 @@ export default function ProductShowcase({ scrollRef }: Props) {
 
   const vp = useGLTF("/models/apple_vision_pro_1k.glb");
   const mb = useGLTF("/models/apple_macbook_pro_1k.glb");
-  const mm = useGLTF("/models/apple_mac_mini_1k.glb");
+  const mm = useGLTF("/models/apple_mac_mini_m4_pro.glb");
 
   const { camera } = useThree();
 
@@ -67,17 +67,17 @@ export default function ProductShowcase({ scrollRef }: Props) {
       // Position: centered early, shifts left when MacBook enters
       let vpX = 0;
       let vpY = 0;
-      let vpScale = 6;
+      let vpScale = 0.12;
       if (sp > 0.4) {
         const t = THREE.MathUtils.clamp((sp - 0.4) / 0.15, 0, 1);
         vpX = THREE.MathUtils.lerp(0, -2, t);
-        vpScale = THREE.MathUtils.lerp(6, 4, t);
+        vpScale = THREE.MathUtils.lerp(0.12, 0.08, t);
       }
       if (sp > 0.6) {
         const t = THREE.MathUtils.clamp((sp - 0.6) / 0.15, 0, 1);
         vpX = THREE.MathUtils.lerp(-2, -1.5, t);
         vpY = THREE.MathUtils.lerp(0, 1.2, t);
-        vpScale = THREE.MathUtils.lerp(4, 3, t);
+        vpScale = THREE.MathUtils.lerp(0.08, 0.06, t);
       }
       vpGroup.current.position.y = THREE.MathUtils.lerp(vpGroup.current.position.y, vpY, delta * 3);
 
@@ -95,7 +95,7 @@ export default function ProductShowcase({ scrollRef }: Props) {
 
       let mbX = THREE.MathUtils.lerp(6, 1.8, mbSmooth);
       let mbY = 0;
-      let mbScale = THREE.MathUtils.lerp(0, 10, mbSmooth);
+      let mbScale = THREE.MathUtils.lerp(0, 0.08, mbSmooth);
       const mbRotY = -0.3 + _state.clock.elapsedTime * 0.1;
 
       // When Mac Mini enters, MacBook shifts
@@ -103,7 +103,7 @@ export default function ProductShowcase({ scrollRef }: Props) {
         const t = THREE.MathUtils.clamp((sp - 0.6) / 0.15, 0, 1);
         mbX = THREE.MathUtils.lerp(1.8, 0, t);
         mbY = THREE.MathUtils.lerp(0, -0.5, t);
-        mbScale = THREE.MathUtils.lerp(10, 7, t);
+        mbScale = THREE.MathUtils.lerp(0.08, 0.06, t);
       }
 
       mbGroup.current.position.x = THREE.MathUtils.lerp(mbGroup.current.position.x, mbX, delta * 3);
@@ -111,14 +111,9 @@ export default function ProductShowcase({ scrollRef }: Props) {
       mbGroup.current.scale.setScalar(
         THREE.MathUtils.lerp(mbGroup.current.scale.x, mbScale, delta * 3)
       );
-      mbGroup.current.rotation.x = THREE.MathUtils.lerp(
-        mbGroup.current.rotation.x,
-        Math.PI / 2,
-        delta * 2
-      );
       mbGroup.current.rotation.y = THREE.MathUtils.lerp(
         mbGroup.current.rotation.y,
-        mbRotY,
+        mbRotY + Math.PI / 2,
         delta * 2
       );
     }
@@ -130,7 +125,7 @@ export default function ProductShowcase({ scrollRef }: Props) {
 
       const mmX = THREE.MathUtils.lerp(0, 1.8, mmSmooth);
       const mmY = THREE.MathUtils.lerp(-4, -1, mmSmooth);
-      const mmScale = THREE.MathUtils.lerp(0, 10, mmSmooth);
+      const mmScale = THREE.MathUtils.lerp(0, 0.06, mmSmooth);
       const mmRotY = 0.5 + _state.clock.elapsedTime * 0.08;
 
       mmGroup.current.position.x = THREE.MathUtils.lerp(mmGroup.current.position.x, mmX, delta * 3);
@@ -176,8 +171,8 @@ export default function ProductShowcase({ scrollRef }: Props) {
         <primitive object={mb.scene} />
       </group>
 
-      {/* Mac Mini — disabled: model is flat planes, not real 3D. Needs replacement. */}
-      <group ref={mmGroup} position={[0, -4, 0]} scale={0} visible={false}>
+      {/* Mac Mini */}
+      <group ref={mmGroup} position={[0, -4, 0]} scale={0}>
         <primitive object={mm.scene} />
       </group>
     </>
