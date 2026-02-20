@@ -67,17 +67,17 @@ export default function ProductShowcase({ scrollRef }: Props) {
       // Position: centered early, shifts left when MacBook enters
       let vpX = 0;
       let vpY = 0;
-      let vpScale = 15;
+      let vpScale = 6;
       if (sp > 0.4) {
         const t = THREE.MathUtils.clamp((sp - 0.4) / 0.15, 0, 1);
         vpX = THREE.MathUtils.lerp(0, -2, t);
-        vpScale = THREE.MathUtils.lerp(15, 10, t);
+        vpScale = THREE.MathUtils.lerp(6, 4, t);
       }
       if (sp > 0.6) {
         const t = THREE.MathUtils.clamp((sp - 0.6) / 0.15, 0, 1);
         vpX = THREE.MathUtils.lerp(-2, -1.5, t);
         vpY = THREE.MathUtils.lerp(0, 1.2, t);
-        vpScale = THREE.MathUtils.lerp(10, 8, t);
+        vpScale = THREE.MathUtils.lerp(4, 3, t);
       }
       vpGroup.current.position.y = THREE.MathUtils.lerp(vpGroup.current.position.y, vpY, delta * 3);
 
@@ -111,18 +111,16 @@ export default function ProductShowcase({ scrollRef }: Props) {
       mbGroup.current.scale.setScalar(
         THREE.MathUtils.lerp(mbGroup.current.scale.x, mbScale, delta * 3)
       );
+      mbGroup.current.rotation.x = THREE.MathUtils.lerp(
+        mbGroup.current.rotation.x,
+        Math.PI / 2,
+        delta * 2
+      );
       mbGroup.current.rotation.y = THREE.MathUtils.lerp(
         mbGroup.current.rotation.y,
         mbRotY,
         delta * 2
       );
-
-      // Lid open animation (rotate first child if it's the lid)
-      const lidAngle = THREE.MathUtils.lerp(0, -Math.PI * 0.4, mbSmooth);
-      const lid = mbGroup.current.children[0]?.children[0]?.children[0];
-      if (lid) {
-        lid.rotation.x = THREE.MathUtils.lerp(lid.rotation.x, lidAngle, delta * 2);
-      }
     }
 
     // ── Mac Mini ──
@@ -178,8 +176,8 @@ export default function ProductShowcase({ scrollRef }: Props) {
         <primitive object={mb.scene} />
       </group>
 
-      {/* Mac Mini — starts offscreen below */}
-      <group ref={mmGroup} position={[0, -4, 0]} scale={0}>
+      {/* Mac Mini — disabled: model is flat planes, not real 3D. Needs replacement. */}
+      <group ref={mmGroup} position={[0, -4, 0]} scale={0} visible={false}>
         <primitive object={mm.scene} />
       </group>
     </>
