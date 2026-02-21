@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 /**
- * Compress GLB models in public/models/ with DRACO mesh compression
- * and WebP texture compression.
+ * Compress GLB models with DRACO + WebP (Vision Pro only).
+ * Each model is output to its own folder with its textures—fully self-contained.
+ *
  * Run: npm run compress:models
  *
- * Looks for .glb files in public/models/ and its subdirectories.
- * Keep all model files (GLB, .bin, textures) in the same folder so
- * texture references resolve correctly.
- * Output overwrites originals. Back up your models first if needed.
+ * Expects original uncompressed models in public/models/ (flat).
+ * Output: public/models/<model>/<model>.glb + textures in same folder.
+ *
+ * Restore original models from backup first if textures are broken.
  */
 
 import { execSync } from "child_process";
@@ -16,7 +17,11 @@ import os from "os";
 import path from "path";
 import { fileURLToPath } from "url";
 
-/** Replace dest with src; uses temp dir + copy to avoid EPERM on Windows/OneDrive */
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const projectRoot = path.resolve(__dirname, "..");
+const modelsDir = path.join(projectRoot, "public", "models");
+
+/** Replace dest with src; avoids EPERM on Windows/OneDrive */
 function replaceFile(src, dest) {
   const tmpFile = path.join(os.tmpdir(), `gltf-${Date.now()}-${path.basename(dest)}`);
   fs.copyFileSync(src, tmpFile);
@@ -28,97 +33,92 @@ function replaceFile(src, dest) {
   fs.unlinkSync(src);
 }
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const projectRoot = path.resolve(__dirname, "..");
-const modelsDir = path.join(projectRoot, "public", "models");
-
-function findGlbFiles(dir, files = []) {
-  if (!fs.existsSync(dir)) return files;
-  const entries = fs.readdirSync(dir, { withFileTypes: true });
-  for (const entry of entries) {
-    const fullPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      findGlbFiles(fullPath, files);
-    } else if (entry.name.endsWith(".glb")) {
-      files.push(fullPath);
-    }
-  }
-  return files;
+/** Get GLB files in root only (flat structure) */
+function getRootGlbFiles() {
+  if (!fs.existsSync(modelsDir)) return [];
+  return fs
+    .readdirSync(modelsDir, { withFileTypes: true })
+    .filter((e) => e.isFile() && e.name.endsWith(".glb"))
+    .map((e) => path.join(modelsDir, e.name));
 }
 
-const glbFiles = findGlbFiles(modelsDir);
-if (glbFiles.length === 0) {
+/** Process one model: output to model/model.glb so it gets its own textures */
+function processModel(inputPath, outputDir, useWebP) {
+  const basename = path.basename(inputPath, ".glb");
+  const outputPath = path.join(outputDir, `${basename}.glb`);
+  const tmpPath = path.join(outputDir, `${basename}.glb.tmp`);
+
+  fs.mkdirSync(outputDir, { recursive: true });
+
+  // 1. DRACO — output to model folder; gltf-transform writes textures there
+  execSync(
+    `npx gltf-transform draco "${inputPath}" "${tmpPath}" --method edgebreaker`,
+    { stdio: "inherit", cwd: projectRoot }
+  );
+  replaceFile(tmpPath, outputPath);
+
+  // 2. WebP (Vision Pro only)
+  if (useWebP) {
+    execSync(
+      `npx gltf-transform webp "${outputPath}" "${tmpPath}" --quality 85`,
+      { stdio: "inherit", cwd: projectRoot }
+    );
+    replaceFile(tmpPath, outputPath);
+    // Remove original jpg/png in this folder only (Vision Pro's textures)
+    const dirFiles = fs.readdirSync(outputDir);
+    const webpBase = new Set(
+      dirFiles.filter((f) => f.endsWith(".webp")).map((f) => path.basename(f, ".webp").toLowerCase())
+    );
+    for (const f of dirFiles) {
+      const ext = path.extname(f).toLowerCase();
+      if ((ext === ".jpg" || ext === ".jpeg" || ext === ".png") && webpBase.has(path.basename(f, ext).toLowerCase())) {
+        fs.unlinkSync(path.join(outputDir, f));
+      }
+    }
+  }
+
+  return outputPath;
+}
+
+// ── Main ──
+const rootGlbs = getRootGlbFiles();
+if (rootGlbs.length === 0) {
   console.error(
-    `No .glb files found in ${modelsDir} or subdirectories\n` +
-      "Add your 3D models (e.g. models/apple-vision-pro/apple-vision-pro.glb) and run again."
+    `No .glb files in ${modelsDir}\n` +
+      "Place original uncompressed models there, then run again.\n" +
+      "Restore from backup if textures are broken."
   );
   process.exit(1);
 }
 
-console.log("Compressing models...\n");
+console.log("Compressing models (each to its own folder)...\n");
 
-for (const inputPath of glbFiles) {
-  const tmpPath = `${inputPath}.tmp`;
-  const relativePath = path.relative(modelsDir, inputPath);
+for (const inputPath of rootGlbs) {
   const basename = path.basename(inputPath, ".glb");
-  const useWebP = basename.includes("vision-pro"); // Only Vision Pro benefits from WebP
+  const outputDir = path.join(modelsDir, basename);
+  const useWebP = basename.includes("vision-pro");
 
   try {
-    // 1. DRACO geometry compression (all models)
-    execSync(
-      `npx gltf-transform draco "${inputPath}" "${tmpPath}" --method edgebreaker`,
-      { stdio: "inherit", cwd: projectRoot }
-    );
-    replaceFile(tmpPath, inputPath);
-
-    // 2. WebP texture compression (Vision Pro only—others get bigger with WebP)
-    if (useWebP) {
-      execSync(
-        `npx gltf-transform webp "${inputPath}" "${tmpPath}" --quality 85`,
-        { stdio: "inherit", cwd: projectRoot }
-      );
-      replaceFile(tmpPath, inputPath);
-    }
-
-    const stats = fs.statSync(inputPath);
-    console.log(`  ✓ ${relativePath} (${(stats.size / 1024).toFixed(1)} KB)${useWebP ? " + WebP" : ""}\n`);
+    processModel(inputPath, outputDir, useWebP);
+    const outPath = path.join(outputDir, `${basename}.glb`);
+    const stats = fs.statSync(outPath);
+    console.log(`  ✓ ${basename}/ (${(stats.size / 1024).toFixed(1)} KB GLB)${useWebP ? " + WebP" : ""}\n`);
   } catch (err) {
-    if (fs.existsSync(tmpPath)) fs.unlinkSync(tmpPath);
-    console.error(`  ✗ Failed: ${relativePath}`, err.message);
+    console.error(`  ✗ Failed: ${basename}`, err.message);
     process.exit(1);
   }
 }
 
-// 3. Cleanup: remove original jpg/png textures that have been replaced by WebP
-function findFiles(dir, ext, files = []) {
-  if (!fs.existsSync(dir)) return files;
-  const entries = fs.readdirSync(dir, { withFileTypes: true });
-  for (const entry of entries) {
-    const fullPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      findFiles(fullPath, ext, files);
-    } else if (entry.name.toLowerCase().endsWith(ext)) {
-      files.push(fullPath);
+// Remove root-level files (now duplicated in subfolders)
+const toRemove = fs.readdirSync(modelsDir, { withFileTypes: true });
+for (const e of toRemove) {
+  if (e.isFile()) {
+    const p = path.join(modelsDir, e.name);
+    if (e.name !== "README.md") {
+      fs.unlinkSync(p);
+      console.log(`  🗑 Removed root ${e.name}`);
     }
   }
-  return files;
 }
 
-const webpFiles = findFiles(modelsDir, ".webp");
-if (webpFiles.length > 0) {
-  const webpBaseNames = new Set(
-    webpFiles.map((f) => path.basename(f, ".webp").toLowerCase())
-  );
-  const toRemove = findFiles(modelsDir, ".jpg")
-    .concat(findFiles(modelsDir, ".jpeg"))
-    .concat(findFiles(modelsDir, ".png"))
-    .filter((f) => webpBaseNames.has(path.basename(f, path.extname(f)).toLowerCase()));
-
-  for (const file of toRemove) {
-    fs.unlinkSync(file);
-    console.log(`  🗑 Removed ${path.relative(modelsDir, file)}`);
-  }
-  if (toRemove.length > 0) console.log("");
-}
-
-console.log("Done. Vision Pro: DRACO + WebP. Others: DRACO only.");
+console.log("\nDone. Each model is in its own folder with its textures.");

@@ -1,15 +1,15 @@
 # 3D Models
 
-Place your `.glb` files and their textures here (all in the same folder):
+Each model lives in its own folder with its textures:
 
-- `apple-vision-pro.glb`
-- `apple-macbook-pro.glb`
-- `apple-mac-mini.glb`
+- `apple-vision-pro/apple-vision-pro.glb` (+ textures)
+- `apple-macbook-pro/apple-macbook-pro.glb` (+ textures)
+- `apple-mac-mini/apple-mac-mini.glb` (+ textures)
 
-Keep each model’s `.bin` and texture files in this folder so paths resolve correctly. Then compress with DRACO + WebP:
+## Compressing
 
-```bash
-npm run compress:models
-```
+1. Place **original uncompressed** `.glb` files in this folder (flat).
+2. Run: `npm run compress:models`
+3. The script creates subfolders and outputs each model with its textures.
 
-This applies DRACO mesh compression and WebP texture compression. Overwrites originals—back up first if needed.
+**If textures are broken:** Restore original models from backup first, then run the script.

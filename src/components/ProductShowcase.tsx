@@ -3,9 +3,9 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, Float, Environment } from "@react-three/drei";
 import * as THREE from "three";
 
-const MODEL_VP = `/models/apple-vision-pro.glb?v=${__APP_VERSION__}`;
-const MODEL_MB = `/models/apple-macbook-pro.glb?v=${__APP_VERSION__}`;
-const MODEL_MM = `/models/apple-mac-mini.glb?v=${__APP_VERSION__}`;
+const MODEL_VP = `/models/apple-vision-pro/apple-vision-pro.glb?v=${__APP_VERSION__}`;
+const MODEL_MB = `/models/apple-macbook-pro/apple-macbook-pro.glb?v=${__APP_VERSION__}`;
+const MODEL_MM = `/models/apple-mac-mini/apple-mac-mini.glb?v=${__APP_VERSION__}`;
 
 useGLTF.preload(MODEL_VP);
 useGLTF.preload(MODEL_MB);
