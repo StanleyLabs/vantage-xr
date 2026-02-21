@@ -286,7 +286,7 @@ export default function App() {
       </div>{/* end 3D zone */}
 
       {/* ── Specs Grid ── */}
-      <section id="specs" className="relative py-32 sm:py-40">
+      <section id="specs" className="relative pb-32 pt-12 sm:pb-40 sm:pt-16">
         <div className="mx-auto max-w-5xl px-6">
           <ScrollSection>
             <div className="text-center">
