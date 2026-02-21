@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState, lazy, Suspense } from "react";
+import { useEffect, useRef, useState, Suspense } from "react";
 import Lenis from "lenis";
 import ScrollSection from "./components/ScrollSection";
-
-const Scene3D = lazy(() => import("./components/Scene3D"));
+import Scene3D from "./components/Scene3D";
 
 /* ── Helpers ── */
 function cn(...x: Array<string | false | null | undefined>) {

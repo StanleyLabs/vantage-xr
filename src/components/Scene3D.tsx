@@ -16,17 +16,18 @@ function Loader() {
 
 export default function Scene3D({ scrollRef }: Scene3DProps) {
   return (
-    <div className="relative h-full w-full">
+    <div className="absolute inset-0">
       <Suspense fallback={<Loader />}>
         <Canvas
           camera={{ position: [0, 0, 4], fov: 50 }}
           dpr={[1, 2]}
+          resize={{ scroll: false, debounce: { scroll: 0, resize: 0 } }}
           gl={{
             antialias: true,
             alpha: true,
             powerPreference: "high-performance",
           }}
-          style={{ background: "transparent" }}
+          style={{ background: "transparent", width: "100%", height: "100%" }}
         >
           <ProductShowcase scrollRef={scrollRef} />
         </Canvas>
