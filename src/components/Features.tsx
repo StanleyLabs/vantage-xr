@@ -16,7 +16,7 @@ export default function Features() {
                 )}
               >
                 <ScrollReveal delay={100}>
-                  <div className="rounded-2xl bg-void/60 backdrop-blur-md p-6 sm:p-8">
+                  <div className="rounded-2xl bg-void/40 p-6 sm:p-8">
                     <div
                       className={cn(
                         "inline-block rounded-full bg-gradient-to-r px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.3em]",

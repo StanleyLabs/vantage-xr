@@ -56,10 +56,10 @@ export default function App() {
       if (navBgRef.current) {
         const nav = navBgRef.current;
         if (progress > 0.02) {
-          nav.classList.add("bg-void/70", "backdrop-blur-xl");
+          nav.classList.add("bg-void/70");
           nav.classList.remove("bg-transparent");
         } else {
-          nav.classList.remove("bg-void/70", "backdrop-blur-xl");
+          nav.classList.remove("bg-void/70");
           nav.classList.add("bg-transparent");
         }
       }

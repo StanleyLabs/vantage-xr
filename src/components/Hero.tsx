@@ -12,14 +12,14 @@ export default function Hero({ visible }: Props) {
 
       <div
         className={cn(
-          "relative z-10 mx-auto max-w-5xl px-6 text-center transition-all duration-1000",
+          "relative z-10 mx-auto max-w-5xl px-6 pt-24 text-center transition-all duration-1000 sm:pt-20",
           visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}
       >
-        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 backdrop-blur">
+        {/* <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 backdrop-blur">
           <span className="text-xs text-white/60">Presented by</span>
           <span className="text-xs font-semibold text-white">Vantage XR</span>
-        </div>
+        </div> */}
 
         <h1 className="font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-7xl lg:text-8xl">
           <span className="gradient-text">Apple</span>
@@ -27,7 +27,7 @@ export default function Hero({ visible }: Props) {
           <span className="text-white">Vision Pro</span>
         </h1>
 
-        <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/70 sm:text-lg">
+        <p className="mx-auto mt-6 max-w-2xl rounded-2xl bg-void/40 px-6 py-4 text-sm sm:text-base leading-relaxed text-white/70 sm:text-lg sm:px-8 sm:py-5">
           Welcome to the era of spatial computing. An infinite canvas that scales beyond
           the limits of a traditional display — and pairs with the devices you already love.
         </p>

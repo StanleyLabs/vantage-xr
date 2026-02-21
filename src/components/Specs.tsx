@@ -3,7 +3,7 @@ import ScrollReveal from "./ScrollReveal";
 
 export default function Specs() {
   return (
-    <section id="specs" className="relative pb-32 pt-12 sm:pb-40 sm:pt-16">
+    <section id="specs" className="relative pb-32 sm:pb-40">
       <div className="mx-auto max-w-5xl px-6">
         <ScrollReveal>
           <div className="text-center">

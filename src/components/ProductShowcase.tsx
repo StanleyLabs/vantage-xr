@@ -105,7 +105,7 @@ export default function ProductShowcase({ scrollRef }: Props) {
       const enter = smoothstep(THREE.MathUtils.clamp((sp - 0.4) / 0.2, 0, 1));
 
       let mbX = 0;
-      let mbY = THREE.MathUtils.lerp(-4, -1.0, enter);
+      let mbY = THREE.MathUtils.lerp(-4, -1.3, enter);
       let mbScale = THREE.MathUtils.lerp(0, mix(0.8, 0.6), enter);
 
       if (sp > 0.6) {
