@@ -78,7 +78,7 @@ export default function ProductShowcase({ scrollRef }: Props) {
         const p = smoothstep(THREE.MathUtils.clamp((sp - 0.6) / 0.15, 0, 1));
         vpX = 0;
         vpY = THREE.MathUtils.lerp(isMobile ? 1.1 : 1.0, isMobile ? 0.8 : 0.7, p);
-        vpScale = THREE.MathUtils.lerp(isMobile ? 0.55 : 0.65, isMobile ? 0.5 : 0.55, p);
+        vpScale = THREE.MathUtils.lerp(isMobile ? 0.55 : 0.65, isMobile ? 0.7 : 0.85, p);
       }
 
       // Position & scale: set directly (no frame-lerp lag)
