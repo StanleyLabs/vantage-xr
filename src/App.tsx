@@ -198,7 +198,7 @@ export default function App() {
             <span className="text-white">Vision Pro</span>
           </h1>
 
-          <p className="mx-auto mt-6 max-w-2xl rounded-2xl bg-void/60 backdrop-blur-md px-6 py-4 text-base leading-relaxed text-white/50 sm:text-lg">
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/70 sm:text-lg">
             Welcome to the era of spatial computing. An infinite canvas that scales beyond
             the limits of a traditional display — and pairs with the devices you already love.
           </p>
