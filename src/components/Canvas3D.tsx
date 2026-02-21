@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import ProductShowcase from "./VisionProModel";
+import ProductShowcase from "./ProductShowcase";
 
-interface Scene3DProps {
+interface Props {
   scrollRef: React.RefObject<number>;
 }
 
@@ -14,7 +14,7 @@ function Loader() {
   );
 }
 
-export default function Scene3D({ scrollRef }: Scene3DProps) {
+export default function Canvas3D({ scrollRef }: Props) {
   return (
     <div className="relative h-full w-full">
       <Suspense fallback={<Loader />}>

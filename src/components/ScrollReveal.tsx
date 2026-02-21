@@ -1,18 +1,19 @@
 import { useRef, useEffect, useState } from "react";
 
-interface ScrollSectionProps {
+interface Props {
   children: React.ReactNode;
   className?: string;
   onVisible?: () => void;
   delay?: number;
 }
 
-export default function ScrollSection({
+/** Fade-in + slide-up on scroll into view. */
+export default function ScrollReveal({
   children,
   className = "",
   onVisible,
   delay = 0,
-}: ScrollSectionProps) {
+}: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
