@@ -295,15 +295,19 @@ export default function App() {
             </div>
           </ScrollSection>
 
-          <div className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-3 [&>*]:min-w-0">
             {specs.map((s, i) => (
-              <ScrollSection key={s.label} delay={i * 80}>
-                <div className="glass rounded-2xl p-6 text-center">
+              <ScrollSection key={s.label} delay={i * 80} className="h-full">
+                <div className="glass flex h-full min-h-0 flex-col rounded-2xl p-6 text-center">
                   <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
                     {s.label}
                   </div>
-                  <div className="mt-2 font-display text-2xl font-bold text-white sm:text-3xl">
-                    {s.value}
+                  <div className="mt-2 flex flex-1 flex-col justify-center font-display text-2xl font-bold text-white sm:text-3xl">
+                    {s.label === "Display" ? (
+                      <>Micro-<br className="sm:hidden" />OLED</>
+                    ) : (
+                      s.value
+                    )}
                   </div>
                 </div>
               </ScrollSection>
