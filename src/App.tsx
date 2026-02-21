@@ -198,7 +198,7 @@ export default function App() {
             <span className="text-white">Vision Pro</span>
           </h1>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/50 sm:text-lg">
+          <p className="mx-auto mt-6 max-w-2xl rounded-2xl bg-void/60 backdrop-blur-md px-6 py-4 text-base leading-relaxed text-white/50 sm:text-lg">
             Welcome to the era of spatial computing. An infinite canvas that scales beyond
             the limits of a traditional display — and pairs with the devices you already love.
           </p>
@@ -233,7 +233,7 @@ export default function App() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_50%,rgba(41,151,255,0.06),transparent)]" />
         <div className="relative mx-auto max-w-4xl px-6 text-center">
           <ScrollSection>
-            <p className="font-display text-2xl font-light leading-relaxed text-white/70 sm:text-4xl sm:leading-relaxed">
+            <p className="font-display text-2xl font-light leading-relaxed text-white/70 sm:text-4xl sm:leading-relaxed rounded-2xl bg-void/60 backdrop-blur-md px-6 py-6 sm:px-8 sm:py-8">
               Apple Vision Pro is Apple's first spatial computer.
               It lets you navigate simply by{" "}
               <span className="text-white font-medium">looking at items</span>, tapping your fingers
