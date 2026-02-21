@@ -3,9 +3,13 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, Float, Environment } from "@react-three/drei";
 import * as THREE from "three";
 
-useGLTF.preload("/models/apple-vision-pro.glb");
-useGLTF.preload("/models/apple-macbook-pro.glb");
-useGLTF.preload("/models/apple-mac-mini.glb");
+const MODEL_VP = `/models/apple-vision-pro.glb?v=${__APP_VERSION__}`;
+const MODEL_MB = `/models/apple-macbook-pro.glb?v=${__APP_VERSION__}`;
+const MODEL_MM = `/models/apple-mac-mini.glb?v=${__APP_VERSION__}`;
+
+useGLTF.preload(MODEL_VP);
+useGLTF.preload(MODEL_MB);
+useGLTF.preload(MODEL_MM);
 
 interface Props {
   scrollRef: React.RefObject<number>;
@@ -32,9 +36,9 @@ export default function ProductShowcase({ scrollRef }: Props) {
   const mbRotAcc = useRef(Math.PI - 0.4);
   const mmRotAcc = useRef(Math.PI + 0.5);
 
-  const vp = useGLTF("/models/apple-vision-pro.glb");
-  const mb = useGLTF("/models/apple-macbook-pro.glb");
-  const mm = useGLTF("/models/apple-mac-mini.glb");
+  const vp = useGLTF(MODEL_VP);
+  const mb = useGLTF(MODEL_MB);
+  const mm = useGLTF(MODEL_MM);
 
   const { camera } = useThree();
 
