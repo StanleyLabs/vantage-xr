@@ -56,12 +56,20 @@ export default function ProductShowcase({ scrollRef }: Props) {
   useFrame((state, rawDelta) => {
     const delta = Math.min(rawDelta, 0.05);
     const sp = scrollRef.current ?? 0;
-    const isMobile = state.viewport.width < 6;
+    // Smooth blend factor: 0 = desktop (wide), 1 = mobile (narrow).
+    // Transitions smoothly between viewport width 5–7 (three.js units)
+    // instead of a hard threshold that causes flickering at boundary sizes.
+    const vw = state.viewport.width;
+    const m = THREE.MathUtils.clamp((7 - vw) / 2, 0, 1);
 
     // Accumulate gentle auto-rotation
     vpRotAcc.current += delta * 0.15;
     mbRotAcc.current += delta * 0.1;
     mmRotAcc.current += delta * 0.08;
+
+    // Helper: blend between desktop (d) and mobile (m) values
+    const mix = (desktop: number, mobile: number) =>
+      THREE.MathUtils.lerp(desktop, mobile, m);
 
     // ── Vision Pro ──
     if (vpGroup.current) {
@@ -70,26 +78,24 @@ export default function ProductShowcase({ scrollRef }: Props) {
 
       let vpX = 0;
       let vpY = 0;
-      let vpScale = isMobile ? 0.8 : 1;
+      let vpScale = mix(1, 0.8);
 
       if (sp > 0.4) {
         const p = smoothstep(THREE.MathUtils.clamp((sp - 0.4) / 0.2, 0, 1));
-        vpY = THREE.MathUtils.lerp(0, isMobile ? 1.1 : 1.0, p);
-        vpScale = THREE.MathUtils.lerp(isMobile ? 0.8 : 1, isMobile ? 0.55 : 0.65, p);
+        vpY = THREE.MathUtils.lerp(0, mix(1.0, 1.1), p);
+        vpScale = THREE.MathUtils.lerp(mix(1, 0.8), mix(0.65, 0.55), p);
       }
 
       if (sp > 0.6) {
         const p = smoothstep(THREE.MathUtils.clamp((sp - 0.6) / 0.15, 0, 1));
         vpX = 0;
-        vpY = THREE.MathUtils.lerp(isMobile ? 1.1 : 1.0, isMobile ? 0.8 : 0.7, p);
-        vpScale = THREE.MathUtils.lerp(isMobile ? 0.55 : 0.65, isMobile ? 0.7 : 0.85, p);
+        vpY = THREE.MathUtils.lerp(mix(1.0, 1.1), mix(0.7, 0.8), p);
+        vpScale = THREE.MathUtils.lerp(mix(0.65, 0.55), mix(0.85, 0.7), p);
       }
 
-      // Position & scale: set directly (no frame-lerp lag)
       vpGroup.current.position.x = vpX;
       vpGroup.current.position.y = vpY;
       vpGroup.current.scale.setScalar(vpScale);
-      // Rotation: lerp for smooth spinning
       vpGroup.current.rotation.y = THREE.MathUtils.lerp(vpGroup.current.rotation.y, vpTargetRotY, delta * 2);
       vpGroup.current.rotation.x = THREE.MathUtils.lerp(vpGroup.current.rotation.x, vpTargetRotX, delta * 2);
     }
@@ -99,13 +105,13 @@ export default function ProductShowcase({ scrollRef }: Props) {
       const enter = smoothstep(THREE.MathUtils.clamp((sp - 0.4) / 0.2, 0, 1));
 
       let mbX = 0;
-      let mbY = THREE.MathUtils.lerp(-4, isMobile ? -1.0 : -1.0, enter);
-      let mbScale = THREE.MathUtils.lerp(0, isMobile ? 0.6 : 0.8, enter);
+      let mbY = THREE.MathUtils.lerp(-4, -1.0, enter);
+      let mbScale = THREE.MathUtils.lerp(0, mix(0.8, 0.6), enter);
 
       if (sp > 0.6) {
         const p = smoothstep(THREE.MathUtils.clamp((sp - 0.6) / 0.2, 0, 1));
-        mbX = THREE.MathUtils.lerp(0, isMobile ? -5 : -6, p);
-        mbScale = THREE.MathUtils.lerp(isMobile ? 0.6 : 0.8, 0, p);
+        mbX = THREE.MathUtils.lerp(0, mix(-6, -5), p);
+        mbScale = THREE.MathUtils.lerp(mix(0.8, 0.6), 0, p);
       }
 
       mbGroup.current.position.x = mbX;
@@ -119,9 +125,9 @@ export default function ProductShowcase({ scrollRef }: Props) {
     if (mmGroup.current) {
       const enter = smoothstep(THREE.MathUtils.clamp((sp - 0.55) / 0.15, 0, 1));
 
-      const mmX = THREE.MathUtils.lerp(isMobile ? 4 : 6, 0, enter);
-      const mmY = THREE.MathUtils.lerp(0, isMobile ? -0.3 : -0.5, enter);
-      const mmScale = THREE.MathUtils.lerp(0, isMobile ? 0.7 : 0.9, enter);
+      const mmX = THREE.MathUtils.lerp(mix(6, 4), 0, enter);
+      const mmY = THREE.MathUtils.lerp(0, mix(-0.5, -0.3), enter);
+      const mmScale = THREE.MathUtils.lerp(0, mix(0.9, 0.7), enter);
 
       mmGroup.current.position.x = mmX;
       mmGroup.current.position.y = mmY;
@@ -131,14 +137,14 @@ export default function ProductShowcase({ scrollRef }: Props) {
     }
 
     // ── Camera ──
-    let camZ = isMobile ? 5 : 4;
+    let camZ = mix(4, 5);
     if (sp > 0.4) {
       const p = smoothstep(THREE.MathUtils.clamp((sp - 0.4) / 0.2, 0, 1));
-      camZ = THREE.MathUtils.lerp(isMobile ? 5 : 4, isMobile ? 6 : 5, p);
+      camZ = THREE.MathUtils.lerp(mix(4, 5), mix(5, 6), p);
     }
     if (sp > 0.6) {
       const p = smoothstep(THREE.MathUtils.clamp((sp - 0.6) / 0.2, 0, 1));
-      camZ = THREE.MathUtils.lerp(isMobile ? 6 : 5, isMobile ? 6.5 : 5.5, p);
+      camZ = THREE.MathUtils.lerp(mix(5, 6), mix(5.5, 6.5), p);
     }
     camera.position.z = camZ;
   });
