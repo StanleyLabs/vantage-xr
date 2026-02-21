@@ -102,7 +102,7 @@ export default function ProductShowcase({ scrollRef }: Props) {
       const ease = enter * enter * (3 - 2 * enter);
 
       let mbX = THREE.MathUtils.lerp(0, 0, ease); // enters centered
-      let mbY = THREE.MathUtils.lerp(-4, isMobile ? -0.3 : -0.2, ease);
+      let mbY = THREE.MathUtils.lerp(-4, isMobile ? -0.6 : -0.6, ease);
       let mbScale = THREE.MathUtils.lerp(0, isMobile ? 0.6 : 0.8, ease);
       const mbTargetRotY = mbRotAcc.current;
 
