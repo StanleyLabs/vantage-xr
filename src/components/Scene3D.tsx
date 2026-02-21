@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import ProductShowcase from "./VisionProModel";
 
 interface Scene3DProps {
@@ -16,44 +14,26 @@ function Loader() {
   );
 }
 
-/**
- * Pre-validate that all GLB files are fetchable before mounting the Canvas.
- * This avoids useGLTF/Suspense hanging silently on failed fetches.
- */
-function useModelsReady(paths: string[]) {
-  const [ready, setReady] = useState(false);
+export default function Scene3D({ scrollRef }: Scene3DProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
 
+  // Force a resize event after mount so the Canvas picks up its dimensions.
+  // Without this, the Canvas can initialize with 0 size in certain layouts
+  // (sticky + negative margin) and never start its render loop until
+  // something else triggers a resize (like opening devtools).
   useEffect(() => {
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath("https://www.gstatic.com/draco/versioned/decoders/1.5.7/");
-    const loader = new GLTFLoader();
-    loader.setDRACOLoader(dracoLoader);
-    Promise.all(paths.map((p) => loader.loadAsync(p)))
-      .then(() => setReady(true))
-      .catch((err) => {
-        console.error("Failed to load models:", err);
-        // Show scene anyway so it doesn't hang forever
-        setReady(true);
-      });
+    const timer = setTimeout(() => {
+      window.dispatchEvent(new Event("resize"));
+    }, 100);
+    return () => clearTimeout(timer);
   }, []);
 
-  return ready;
-}
-
-export default function Scene3D({ scrollRef }: Scene3DProps) {
-  const ready = useModelsReady([
-    "/models/apple-vision-pro.glb",
-    "/models/apple-macbook-pro.glb",
-    "/models/apple-mac-mini.glb",
-  ]);
-
-  if (!ready) return <Loader />;
-
   return (
-    <div className="absolute inset-0">
+    <div ref={containerRef} className="absolute inset-0">
       <Canvas
         camera={{ position: [0, 0, 4], fov: 50 }}
         dpr={[1, 2]}
+        frameloop="always"
         resize={{ scroll: false, debounce: { scroll: 0, resize: 0 } }}
         gl={{
           antialias: true,
