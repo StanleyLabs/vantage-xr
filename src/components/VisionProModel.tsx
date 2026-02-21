@@ -122,10 +122,10 @@ export default function ProductShowcase({ scrollRef }: Props) {
 
     // ── Mac Mini ──
     if (mmGroup.current) {
-      const enter = THREE.MathUtils.clamp((sp - 0.6) / 0.2, 0, 1);
+      const enter = THREE.MathUtils.clamp((sp - 0.55) / 0.15, 0, 1);
       const ease = enter * enter * (3 - 2 * enter);
 
-      const mmX = THREE.MathUtils.lerp(isMobile ? 4 : 6, isMobile ? 0 : 0.5, ease);
+      const mmX = THREE.MathUtils.lerp(isMobile ? 4 : 6, isMobile ? 0 : 0, ease);
       const mmY = THREE.MathUtils.lerp(0, isMobile ? -0.3 : -0.5, ease);
       const mmScale = THREE.MathUtils.lerp(0, isMobile ? 0.7 : 0.9, ease);
       const mmTargetRotY = mmRotAcc.current;
