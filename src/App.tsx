@@ -280,6 +280,9 @@ export default function App() {
           ))}
         </div>
       </section>
+
+      {/* Extra scroll room so the 3D canvas stays sticky until just before Specs */}
+      <div className="relative h-[50vh]" />
       </div>{/* end 3D zone */}
 
       {/* ── Specs Grid ── */}
