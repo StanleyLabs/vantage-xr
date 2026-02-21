@@ -84,8 +84,8 @@ export default function ProductShowcase({ scrollRef }: Props) {
       // Phase 3: VP stays top-center, slightly smaller
       if (sp > 0.6) {
         const p = THREE.MathUtils.clamp((sp - 0.6) / 0.15, 0, 1);
-        vpX = THREE.MathUtils.lerp(0, isMobile ? 0 : -0.3, p);
-        vpY = THREE.MathUtils.lerp(isMobile ? 1.6 : 1.5, isMobile ? 1.8 : 1.6, p);
+        vpX = THREE.MathUtils.lerp(0, isMobile ? 0 : 0, p);
+        vpY = THREE.MathUtils.lerp(isMobile ? 1.6 : 1.5, isMobile ? 1.2 : 1.0, p);
         vpScale = THREE.MathUtils.lerp(isMobile ? 0.55 : 0.65, isMobile ? 0.5 : 0.55, p);
       }
 
