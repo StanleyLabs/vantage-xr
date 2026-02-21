@@ -70,14 +70,14 @@ export default function ProductShowcase({ scrollRef }: Props) {
 
       if (sp > 0.4) {
         const p = smoothstep(THREE.MathUtils.clamp((sp - 0.4) / 0.2, 0, 1));
-        vpY = THREE.MathUtils.lerp(0, isMobile ? 1.6 : 1.5, p);
+        vpY = THREE.MathUtils.lerp(0, isMobile ? 1.1 : 1.0, p);
         vpScale = THREE.MathUtils.lerp(isMobile ? 0.8 : 1, isMobile ? 0.55 : 0.65, p);
       }
 
       if (sp > 0.6) {
         const p = smoothstep(THREE.MathUtils.clamp((sp - 0.6) / 0.15, 0, 1));
         vpX = 0;
-        vpY = THREE.MathUtils.lerp(isMobile ? 1.6 : 1.5, isMobile ? 1.2 : 1.0, p);
+        vpY = THREE.MathUtils.lerp(isMobile ? 1.1 : 1.0, isMobile ? 0.8 : 0.7, p);
         vpScale = THREE.MathUtils.lerp(isMobile ? 0.55 : 0.65, isMobile ? 0.5 : 0.55, p);
       }
 
@@ -95,7 +95,7 @@ export default function ProductShowcase({ scrollRef }: Props) {
       const enter = smoothstep(THREE.MathUtils.clamp((sp - 0.4) / 0.2, 0, 1));
 
       let mbX = 0;
-      let mbY = THREE.MathUtils.lerp(-4, isMobile ? -0.6 : -0.6, enter);
+      let mbY = THREE.MathUtils.lerp(-4, isMobile ? -1.0 : -1.0, enter);
       let mbScale = THREE.MathUtils.lerp(0, isMobile ? 0.6 : 0.8, enter);
 
       if (sp > 0.6) {
