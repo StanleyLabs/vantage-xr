@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import ProductShowcase from "./VisionProModel";
 
 interface Scene3DProps {
@@ -23,7 +24,10 @@ function useModelsReady(paths: string[]) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath("https://www.gstatic.com/draco/versioned/decoders/1.5.7/");
     const loader = new GLTFLoader();
+    loader.setDRACOLoader(dracoLoader);
     Promise.all(paths.map((p) => loader.loadAsync(p)))
       .then(() => setReady(true))
       .catch((err) => {
