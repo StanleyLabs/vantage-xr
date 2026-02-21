@@ -2,8 +2,8 @@ import { forwardRef } from "react";
 import { cn } from "../utils/cn";
 
 interface Props {
-  navBgRef: React.RefObject<HTMLDivElement>;
-  progressBarRef: React.RefObject<HTMLDivElement>;
+  navBgRef: React.RefObject<HTMLDivElement | null>;
+  progressBarRef: React.RefObject<HTMLDivElement | null>;
 }
 
 const Navbar = forwardRef<HTMLElement, Props>(({ navBgRef, progressBarRef }) => {
