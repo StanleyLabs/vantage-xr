@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, Suspense } from "react";
+import { useEffect, useRef, useState } from "react";
 import Lenis from "lenis";
 import ScrollSection from "./components/ScrollSection";
 import Scene3D from "./components/Scene3D";
@@ -169,9 +169,7 @@ export default function App() {
       <div className="relative">
         {/* Sticky 3D backdrop */}
         <div className="sticky top-0 z-0 h-dvh w-full">
-          <Suspense fallback={null}>
-            <Scene3D scrollRef={scrollRef} />
-          </Suspense>
+          <Scene3D scrollRef={scrollRef} />
         </div>
 
       {/* ── Hero ── */}

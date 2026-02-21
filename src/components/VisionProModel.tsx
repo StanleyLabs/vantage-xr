@@ -3,10 +3,6 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, Float, Environment } from "@react-three/drei";
 import * as THREE from "three";
 
-useGLTF.preload("/models/apple-vision-pro.glb");
-useGLTF.preload("/models/apple-macbook-pro.glb");
-useGLTF.preload("/models/apple-mac-mini.glb");
-
 interface Props {
   scrollRef: React.RefObject<number>;
 }
