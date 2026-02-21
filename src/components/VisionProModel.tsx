@@ -38,7 +38,7 @@ export default function ProductShowcase({ scrollRef }: Props) {
   const mb = useGLTF("/models/apple-macbook-pro.glb");
   const mm = useGLTF("/models/apple-mac-mini.glb");
 
-  const { camera, viewport } = useThree();
+  const { camera } = useThree();
 
   useEffect(() => {
     [vp, mb, mm].forEach((model) => {
@@ -51,13 +51,13 @@ export default function ProductShowcase({ scrollRef }: Props) {
     });
   }, [vp, mb, mm]);
 
-  useFrame((_state, rawDelta) => {
+  useFrame((state, rawDelta) => {
     // Clamp delta so a long gap (tab hidden) doesn't cause huge jumps
     const delta = Math.min(rawDelta, 0.05);
     const sp = scrollRef.current ?? 0;
 
     // Mobile detection via viewport width (three.js units)
-    const isMobile = viewport.width < 6;
+    const isMobile = state.viewport.width < 6;
     const lerpSpeed = 4;
 
     // Accumulate gentle auto-rotation (clamped delta means no catch-up)
