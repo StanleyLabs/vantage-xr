@@ -29,7 +29,7 @@ export default function Hero({ visible }: Props) {
 
         <p className="mx-auto mt-6 max-w-2xl rounded-2xl bg-void/40 px-6 py-4 text-sm sm:text-base leading-relaxed text-white/70 sm:text-lg sm:px-8 sm:py-5">
           Welcome to the era of spatial computing. An infinite canvas that scales beyond
-          the limits of a traditional display — and pairs with the devices you already love.
+          the limits of a traditional display - and pairs with the devices you already love.
         </p>
 
         <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
