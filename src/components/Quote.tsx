@@ -8,7 +8,7 @@ export default function Quote() {
           <blockquote className="font-display text-xl font-light italic leading-relaxed text-white/60 sm:text-3xl sm:leading-relaxed">
             "It's the most extraordinary piece of electronics I have ever seen."
           </blockquote>
-          <div className="mt-6 text-sm text-white/30">— Marques Brownlee</div>
+          <div className="mt-6 text-sm text-white/30">- Marques Brownlee</div>
         </ScrollReveal>
       </div>
     </section>

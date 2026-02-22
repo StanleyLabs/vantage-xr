@@ -45,7 +45,7 @@ export default function App() {
     };
     document.addEventListener("click", handleAnchorClick);
 
-    // Scroll progress — direct DOM updates, no React re-renders
+    // Scroll progress - direct DOM updates, no React re-renders
     lenis.on("scroll", ({ progress }: { progress: number }) => {
       scrollRef.current = progress;
 

@@ -2,7 +2,7 @@ export const features = [
   {
     label: "SPATIAL COMPUTING",
     title: "Your apps live\nin your world.",
-    desc: "Apple Vision Pro seamlessly blends digital content with your physical space. Apps scale to the perfect size, and you can spread them around you — beyond the limits of any display.",
+    desc: "Apple Vision Pro seamlessly blends digital content with your physical space. Apps scale to the perfect size, and you can spread them around you - beyond the limits of any display.",
     accent: "from-apple-blue/20 to-transparent",
   },
   {
@@ -14,7 +14,7 @@ export const features = [
   {
     label: "MICRO‑OLED",
     title: "23 million pixels.\nTwo displays.",
-    desc: "More pixels than a 4K TV — for each eye. Apple's custom micro‑OLED display system delivers stunning resolution with wide color and HDR support.",
+    desc: "More pixels than a 4K TV - for each eye. Apple's custom micro‑OLED display system delivers stunning resolution with wide color and HDR support.",
     accent: "from-cyan/20 to-transparent",
   },
   {
@@ -26,7 +26,7 @@ export const features = [
   {
     label: "MAC MINI",
     title: "Desktop power.\nSpatial scale.",
-    desc: "Connect to Mac Mini with M4 Pro for extreme performance in a spatial environment. Render 3D scenes, compile massive projects — all on a display that wraps around you.",
+    desc: "Connect to Mac Mini with M4 Pro for extreme performance in a spatial environment. Render 3D scenes, compile massive projects - all on a display that wraps around you.",
     accent: "from-emerald-500/20 to-transparent",
   },
 ];

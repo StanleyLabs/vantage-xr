@@ -57,7 +57,7 @@ export default function ProductShowcase({ scrollRef }: Props) {
     const delta = Math.min(rawDelta, 0.05);
     const sp = scrollRef.current ?? 0;
     // Smooth blend factor: 0 = desktop (wide), 1 = mobile (narrow).
-    // Transitions smoothly between viewport width 5–7 (three.js units)
+    // Transitions smoothly between viewport width 5-7 (three.js units)
     // instead of a hard threshold that causes flickering at boundary sizes.
     const vw = state.viewport.width;
     const m = THREE.MathUtils.clamp((7 - vw) / 2, 0, 1);
