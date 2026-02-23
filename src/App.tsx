@@ -22,6 +22,8 @@ export default function App() {
     const lenis = new Lenis({
       duration: 1.4,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      syncTouch: true,
+      syncTouchLerp: 0.06,
     });
 
     function raf(time: number) {
